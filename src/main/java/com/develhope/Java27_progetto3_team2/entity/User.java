@@ -21,4 +21,7 @@ public class User {
     @Setter
     @Column(name = "surname")
     private String surname;
+    @Setter
+    @Column(name = "role")
+    private String role; //Temporary untill an enumerator with roles will get implemented
 }
