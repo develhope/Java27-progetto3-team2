@@ -1,21 +1,26 @@
 package com.develhope.Java27_progetto3_team2.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "restaurant_menu")
 public class RestaurantMenu {
    @Id
-   private int id;
-   @Setter
-   @Column(name = "menu")
-   private String menu;
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
    @OneToOne
    @Column(name = "restaurant_id")
-   private int restaurantId;
+   private Long restaurantId;
+   @OneToMany
+   @JoinColumn(name = "menu_item_list", referencedColumnName = "menu_item")
+   @Setter
+   private List<MenuItem> menuItemsList;
+
 }
