@@ -1,19 +1,21 @@
 package com.develhope.Java27_progetto3_team2.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.TimeZone;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@Entity
+@Entity(name = "restaurant")
 public class Restaurant {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Setter
     @Column(name = "name_restaurant")
     private String nameRestaurant;
@@ -26,9 +28,11 @@ public class Restaurant {
     @Setter
     @Column(name = "opening_hours")
     public TimeZone openingHours;
+    @Setter
     @OneToOne
     @Column(name = "menu_restaurant_id")
-    private int menuRestaurantID;
+    private long menuRestaurantID;
+    @Setter
     @Column(name = "review")
     private double review;
 }
