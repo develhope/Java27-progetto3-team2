@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-public class MenuItem {
+public class MenuItemDTO {
     private int id;
     @Setter
     private String itemName;
@@ -14,6 +14,8 @@ public class MenuItem {
     private String itemDescription;
     @Setter
     private double itemPrice;
+    @Setter
+    private String categoryFood;
     @Setter
     private boolean availability;
     @Setter
