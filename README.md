@@ -1,7 +1,6 @@
 # Java27-progetto3-team2
 
 Funzionalità Principali:
-
 Autenticazione Utenti (Clienti e Ristoranti):
 Registrazione e login per clienti e ristoranti.
 Gestione profilo utente (indirizzi, metodi di pagamento, preferenze).
