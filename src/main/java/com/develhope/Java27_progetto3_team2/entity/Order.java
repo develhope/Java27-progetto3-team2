@@ -24,27 +24,27 @@ public class Order {
 
     // Indirizzo di consegna fornito dal cliente
     @Setter
-    @Column(name = "deliveryAddress", nullable = false)
+    @Column(name = "delivery_address", nullable = false)
     private String deliveryAddress;
 
     // Metodo di pagamento scelto dal cliente (Esempi: Carta di credito, PayPal)
     @Setter
-    @Column(name = "paymentMethod", nullable = false)
+    @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
 
     // Data di creazione dell'ordine
     @Setter
-    @Column(name = "orderDate", nullable = false)
+    @Column(name = "order_date", nullable = false)
     private Date orderDate;
 
     // Prezzo totale dell'ordine
     @Setter
-    @Column(name = "totalPrice", nullable = false)
+    @Column(name = "total_price", nullable = false)
     private Double totalPrice;
 
     // ID del corriere assegnato all'ordine
     @Setter
-    @Column(name = "courierId", nullable = false)
+    @Column(name = "courier_id", nullable = false)
     private Long courierId; //Temporaneo, in definizione se creare un'entità separata per il corriere
 
 
