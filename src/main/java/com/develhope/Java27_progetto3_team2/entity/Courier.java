@@ -21,7 +21,7 @@ public class Courier {
     @Column(name = "surname")
     private String surname;
     @Setter
-    @Column(name = "phoneNumber", nullable = false, unique = true)
+    @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
     @Setter
     @Column(name = "email", nullable = false, unique = true)
