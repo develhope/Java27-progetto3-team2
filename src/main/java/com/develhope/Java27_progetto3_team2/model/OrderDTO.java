@@ -1,4 +1,4 @@
-package com.develhope.Java27_progetto3_team2.dto;
+package com.develhope.Java27_progetto3_team2.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
