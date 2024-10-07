@@ -11,7 +11,7 @@ import java.util.TimeZone;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantDTO {
-    private long id;
+    private Long id;
     @Setter
     private String nameRestaurant;
     @Setter

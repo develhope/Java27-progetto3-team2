@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Setter
     @Column(name = "name_restaurant")
     private String nameRestaurant;
