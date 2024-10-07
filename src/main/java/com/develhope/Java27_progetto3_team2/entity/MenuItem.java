@@ -9,7 +9,7 @@ import lombok.Setter;
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Setter
     @Column(name = "item_name", nullable= false)
     private String itemName;

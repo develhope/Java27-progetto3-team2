@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class MenuItemDTO {
-    private int id;
+    private Long id;
     @Setter
     private String itemName;
     @Setter
