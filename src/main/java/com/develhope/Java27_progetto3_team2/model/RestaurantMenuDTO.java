@@ -1,9 +1,11 @@
 package com.develhope.Java27_progetto3_team2.model;
 
+import com.develhope.Java27_progetto3_team2.entity.MenuItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.List;
 
 @AllArgsConstructor

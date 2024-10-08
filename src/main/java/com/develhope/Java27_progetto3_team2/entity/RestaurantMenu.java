@@ -16,10 +16,9 @@ public class RestaurantMenu {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
    @OneToOne
-   @Column(name = "restaurant_id")
-   private Long restaurantId;
-   @OneToMany
-   @JoinColumn(name = "menu_item_list", referencedColumnName = "menu_item")
+   @JoinColumn(name = "restaurant_id")
+   private Restaurant restaurantId;
+   @OneToMany(mappedBy = "restaurantMenu")
    @Setter
    private List<MenuItem> menuItemsList;
 

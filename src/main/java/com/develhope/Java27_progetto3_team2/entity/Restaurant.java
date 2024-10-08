@@ -17,7 +17,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    @Column(name = "name_restaurant")
+    @JoinColumn(name = "name_restaurant")
     private String nameRestaurant;
     @Setter
     @Column(name = "category")
@@ -30,8 +30,8 @@ public class Restaurant {
     public TimeZone openingHours;
     @Setter
     @OneToOne
-    @Column(name = "menu_restaurant_id")
-    private long menuRestaurantID;
+    @JoinColumn(name = "menu_restaurant_id")
+    private RestaurantMenu menuRestaurantID;
     @Setter
     @Column(name = "review")
     private double review;

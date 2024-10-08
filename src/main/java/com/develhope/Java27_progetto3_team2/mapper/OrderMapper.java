@@ -2,7 +2,9 @@ package com.develhope.Java27_progetto3_team2.mapper;
 
 import com.develhope.Java27_progetto3_team2.entity.Order;
 import com.develhope.Java27_progetto3_team2.model.OrderDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderMapper {
     public Order mapperOrderDTOToOrder(OrderDTO orderDTO){
         return Order.builder().id(orderDTO.getId()).status(orderDTO.getStatus()).deliveryAddress(orderDTO.getDeliveryAddress()).paymentMethod(orderDTO.getPaymentMethod()).orderDate(orderDTO.getOrderDate()).totalPrice(orderDTO.getTotalPrice()).courierId(orderDTO.getCourierId()).build();

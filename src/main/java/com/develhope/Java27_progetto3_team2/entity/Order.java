@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.Date;
 
 
-@Entity(name = "order")
+@Entity(name = "order_entity")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

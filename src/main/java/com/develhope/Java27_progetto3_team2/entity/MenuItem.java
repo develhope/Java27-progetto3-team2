@@ -35,6 +35,6 @@ public class MenuItem {
     @Column(name = "lactose_free_item")
     private boolean lactoseFreeItem;
     @ManyToOne
-    @Column (name = "menu_id", nullable= false)
-    private int menuId;
+    @JoinColumn(name = "restaurant_menu", nullable = false)
+    private RestaurantMenu restaurantMenu;
 }
