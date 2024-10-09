@@ -20,4 +20,17 @@ public class OrderService {
        Order orderUpdated = orderRepository.save(orderMapper.mapperOrderDTOToOrder(orderDTO));
         return orderMapper.mapperOrderToOrderDTO(orderUpdated);
     }
+
+    public boolean deleteOrder(Long idOrder) {
+        if (!orderRepository.existsById(idOrder)) {
+            return false; // L'ordine non esiste, restituisci false
+        }
+        orderRepository.deleteById(idOrder); // Elimina l'ordine
+        return true; // Restituisci true per indicare che l'ordine è stato eliminato con successo
+    }
+
+
+
+
+
 }
