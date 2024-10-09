@@ -12,7 +12,7 @@ import java.util.Date;
 public class OrderDTO {
 
     private Long id;
-    private String status;
+    private OrderStatus status;
     private String deliveryAddress;
     private String paymentMethod;
     private Date orderDate;

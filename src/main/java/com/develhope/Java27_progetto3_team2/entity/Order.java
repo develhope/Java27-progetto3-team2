@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.entity;
 
+import com.develhope.Java27_progetto3_team2.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
@@ -19,8 +20,9 @@ public class Order {
 
     // Stato corrente dell'ordine (Esempi: Pending, In Preparation, Delivering, Completed ecc.)
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status; //Temporaneo in attesa che un enumerator degli status venga implementato
+    private OrderStatus status;
 
     // Indirizzo di consegna fornito dal cliente
     @Setter
