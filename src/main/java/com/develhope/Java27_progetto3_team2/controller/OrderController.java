@@ -24,4 +24,19 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/{idOrder}")
+    public ResponseEntity<String> deleteOrder(@PathVariable("idOrder") Long idOrder) {
+        try {
+            boolean isDeleted = orderService.deleteOrder(idOrder);
+            if (isDeleted) {
+                return ResponseEntity.ok("Order with id " + idOrder + " has been deleted.");
+            } else {
+                return ResponseEntity.status(404).body("Order with id " + idOrder + " not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred while deleting the order: " + e.getMessage());
+        }
+    }
+
 }
