@@ -45,11 +45,8 @@ public class OrderController {
     public ResponseEntity<?> deleteOrder(@PathVariable("idOrder") Long idOrder) {
         try {
             boolean isDeleted = orderService.deleteOrder(idOrder);
-            if (isDeleted) {
-                return ResponseEntity.ok("Order with id " + idOrder + " has been deleted.");
-            } else {
-                return ResponseEntity.status(404).body("Order with id " + idOrder + " not found");
-            }
+            return ResponseEntity.ok("Order with id " + idOrder + " has been deleted.");
+            //return ResponseEntity.noContent().build(); <-- codice 204 No content, delete idempotente
         } catch (Exception e) {
             return ResponseEntity.status(500).body("An error occurred while deleting the order: " + e.getMessage());
         }
