@@ -14,9 +14,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     public OrderDTO addNewOrder(OrderDTO orderDTO) throws Exception {
-        if(orderRepository.existsById(orderDTO.getId())){
-            throw new Exception("order exists!");
-        }
         Order order = orderMapper.mapperOrderDTOToOrder(orderDTO);
         orderRepository.save(order);
         return orderMapper.mapperOrderToOrderDTO(order);
