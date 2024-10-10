@@ -37,9 +37,4 @@ public class OrderService {
         orderRepository.deleteById(idOrder); // Elimina l'ordine
         return true; // Restituisci true per indicare che l'ordine è stato eliminato con successo
     }
-
-
-
-
-
 }
