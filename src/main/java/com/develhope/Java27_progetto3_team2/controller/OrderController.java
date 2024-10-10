@@ -15,19 +15,6 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-
-    @PostMapping()
-    public ResponseEntity<?> addNewOrder(@RequestBody OrderDTO orderDTO){
-        try{
-            OrderDTO newOrder = orderService.addNewOrder(orderDTO);
-            log.debug("Order added in database {}", orderDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
-        } catch (Exception e){
-            log.error("Error in add new order {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
-
     @PutMapping("/{idOrder}")
     public ResponseEntity<?> updateOrder(@RequestBody OrderDTO orderDTO, @PathVariable("idOrder") Long idOrder) throws Exception {
         try {
