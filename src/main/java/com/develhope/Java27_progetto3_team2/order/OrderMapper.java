@@ -1,7 +1,5 @@
-package com.develhope.Java27_progetto3_team2.mapper;
+package com.develhope.Java27_progetto3_team2.order;
 
-import com.develhope.Java27_progetto3_team2.entity.Order;
-import com.develhope.Java27_progetto3_team2.model.OrderDTO;
 import org.springframework.stereotype.Component;
 
 @Component
