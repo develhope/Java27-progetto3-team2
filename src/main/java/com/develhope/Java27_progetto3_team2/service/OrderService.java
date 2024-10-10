@@ -13,6 +13,12 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
 
+    public OrderDTO addNewOrder(OrderDTO orderDTO) throws Exception {
+        Order order = orderMapper.mapperOrderDTOToOrder(orderDTO);
+        orderRepository.save(order);
+        return orderMapper.mapperOrderToOrderDTO(order);
+    }
+
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) throws Exception {
         if(!(orderRepository.existsById(idOrder))){
             throw new Exception("Id doesn't exist!");
