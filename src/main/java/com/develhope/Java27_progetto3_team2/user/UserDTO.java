@@ -1,4 +1,4 @@
-package com.develhope.Java27_progetto3_team2.model;
+package com.develhope.Java27_progetto3_team2.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,5 @@
-package com.develhope.Java27_progetto3_team2.model;
+package com.develhope.Java27_progetto3_team2.menu;
 
-import com.develhope.Java27_progetto3_team2.entity.MenuItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

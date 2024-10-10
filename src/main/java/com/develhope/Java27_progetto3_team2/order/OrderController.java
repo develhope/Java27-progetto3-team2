@@ -1,7 +1,5 @@
-package com.develhope.Java27_progetto3_team2.controller;
+package com.develhope.Java27_progetto3_team2.order;
 
-import com.develhope.Java27_progetto3_team2.model.OrderDTO;
-import com.develhope.Java27_progetto3_team2.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

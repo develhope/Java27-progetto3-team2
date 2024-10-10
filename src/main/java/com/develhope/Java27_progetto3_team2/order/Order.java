@@ -1,6 +1,5 @@
-package com.develhope.Java27_progetto3_team2.entity;
+package com.develhope.Java27_progetto3_team2.order;
 
-import com.develhope.Java27_progetto3_team2.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;

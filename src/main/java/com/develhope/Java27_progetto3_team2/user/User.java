@@ -1,4 +1,4 @@
-package com.develhope.Java27_progetto3_team2.entity;
+package com.develhope.Java27_progetto3_team2.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
