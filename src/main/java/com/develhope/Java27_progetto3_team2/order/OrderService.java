@@ -3,6 +3,9 @@ package com.develhope.Java27_progetto3_team2.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -29,6 +32,11 @@ public class OrderService {
         }
         orderRepository.deleteById(idOrder); // Elimina l'ordine
         return true; // Restituisci true per indicare che l'ordine è stato eliminato con successo
+    }
+
+    public List<OrderDTO> getOrdersByUserId(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        return orders.stream().map(orderMapper::mapperOrderToOrderDTO).collect(Collectors.toList());
     }
 
 
