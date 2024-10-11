@@ -36,6 +36,7 @@ class UserServiceTest {
 
     private User user;
     private UserDTO userDTO;
+    private UserDTO changedUserDTO;
 
     @BeforeEach
     void setUp() {
@@ -46,6 +47,10 @@ class UserServiceTest {
         userDTO = new UserDTO();
         userDTO.setName("Mario");
         userDTO.setSurname("Brigida");
+
+        changedUserDTO = new UserDTO();
+        changedUserDTO.setName("Luigi");
+        changedUserDTO.setSurname("Bianco");
     }
 
     @Test
@@ -80,7 +85,7 @@ class UserServiceTest {
     @Test
     void changeUserName() throws Exception {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(userMapper.toDTO(user)).thenReturn(userDTO);
+        when(userMapper.toDTO(user)).thenReturn(changedUserDTO);
 
         UserDTO result = userService.changeUserName(1L, "Luigi");
 
@@ -91,7 +96,7 @@ class UserServiceTest {
     @Test
     void changerUserSurname() throws Exception {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(userMapper.toDTO(user)).thenReturn(userDTO);
+        when(userMapper.toDTO(user)).thenReturn(changedUserDTO);
 
         UserDTO result = userService.changerUserSurname(1L, "Bianco");
 
