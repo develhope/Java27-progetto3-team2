@@ -3,6 +3,8 @@ package com.develhope.Java27_progetto3_team2.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -31,7 +33,9 @@ public class OrderService {
         return true; // Restituisci true per indicare che l'ordine è stato eliminato con successo
     }
 
-
+    public List<OrderDTO> getAllOrder(){
+        return orderMapper.fromOrderListToDTOList(orderRepository.findAll());
+    }
 
 
 

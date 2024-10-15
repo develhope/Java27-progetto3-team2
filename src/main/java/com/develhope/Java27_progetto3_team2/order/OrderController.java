@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/order")
 @Slf4j
@@ -50,4 +52,10 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/all-order")
+    public ResponseEntity<List<OrderDTO>> getAllOrder(){
+        List<OrderDTO> orderDTOList = orderService.getAllOrder();
+        log.debug("Get all order");
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderDTOList);
+    }
 }
