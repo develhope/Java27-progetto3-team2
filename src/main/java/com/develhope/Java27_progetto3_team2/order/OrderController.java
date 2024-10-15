@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/order")
 @Slf4j
@@ -49,5 +51,21 @@ public class OrderController {
             return ResponseEntity.status(500).body("An error occurred while deleting the order: " + e.getMessage());
         }
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getOrdersByUserId(@PathVariable Long userId) {
+        try {
+            List<OrderDTO> orders = orderService.getOrdersByUserId(userId);
+            if (orders.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No orders found for user with ID " + userId);
+            }
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            log.error("Error fetching orders for user with ID {}: {}", userId, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching orders for user");
+        }
+    }
+
+
 
 }
