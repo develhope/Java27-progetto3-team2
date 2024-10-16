@@ -66,6 +66,10 @@ public class OrderController {
         }
     }
 
-
-
+    @GetMapping("/all-order")
+    public ResponseEntity<List<OrderDTO>> getAllOrder(){
+        List<OrderDTO> orderDTOList = orderService.getAllOrder();
+        log.debug("Get all order");
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderDTOList);
+    }
 }

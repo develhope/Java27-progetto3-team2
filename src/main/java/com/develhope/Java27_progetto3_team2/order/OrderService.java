@@ -39,8 +39,7 @@ public class OrderService {
         return orders.stream().map(orderMapper::mapperOrderToOrderDTO).collect(Collectors.toList());
     }
 
-
-
-
-
+    public List<OrderDTO> getAllOrder(){
+        return orderMapper.fromOrderListToDTOList(orderRepository.findAll());
+    }
 }
