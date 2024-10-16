@@ -72,6 +72,4 @@ public class OrderController {
         log.debug("Get all order");
         return ResponseEntity.status(HttpStatus.FOUND).body(orderDTOList);
     }
-
-
 }

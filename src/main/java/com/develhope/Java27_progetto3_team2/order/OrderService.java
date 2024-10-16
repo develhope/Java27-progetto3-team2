@@ -42,7 +42,4 @@ public class OrderService {
     public List<OrderDTO> getAllOrder(){
         return orderMapper.fromOrderListToDTOList(orderRepository.findAll());
     }
-
-
-
 }
