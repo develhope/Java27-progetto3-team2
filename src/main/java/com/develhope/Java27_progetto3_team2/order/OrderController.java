@@ -52,10 +52,26 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getOrdersByUserId(@PathVariable Long userId) {
+        try {
+            List<OrderDTO> orders = orderService.getOrdersByUserId(userId);
+            if (orders.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No orders found for user with ID " + userId);
+            }
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            log.error("Error fetching orders for user with ID {}: {}", userId, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching orders for user");
+        }
+    }
+
     @GetMapping("/all-order")
     public ResponseEntity<List<OrderDTO>> getAllOrder(){
         List<OrderDTO> orderDTOList = orderService.getAllOrder();
         log.debug("Get all order");
         return ResponseEntity.status(HttpStatus.FOUND).body(orderDTOList);
     }
+
+
 }
