@@ -1,4 +1,4 @@
-package com.develhope.Java27_progetto3_team2;
+package com.develhope.Java27_progetto3_team2.usertest;
 
 import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserDTO;
