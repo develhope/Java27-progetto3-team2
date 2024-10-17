@@ -1,27 +1,27 @@
-package com.develhope.Java27_progetto3_team2.restaurant;
+package com.develhope.Java27_progetto3_team2.restaurant.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.develhope.Java27_progetto3_team2.menu.RestaurantMenuDTO;
+import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
+import lombok.*;
 
 import java.util.TimeZone;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RestaurantDTO {
     private Long id;
     @Setter
     private String nameRestaurant;
     @Setter
-    private String category;
+    private Category category;
     @Setter
     private String address;
     @Setter
     public TimeZone openingHours;
     @Setter
-    private long menuRestaurant;
+    private RestaurantMenuDTO menuRestaurant;
     @Setter
     private double review;
 }

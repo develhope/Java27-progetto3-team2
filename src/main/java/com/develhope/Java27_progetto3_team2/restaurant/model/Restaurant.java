@@ -1,18 +1,17 @@
-package com.develhope.Java27_progetto3_team2.restaurant;
+package com.develhope.Java27_progetto3_team2.restaurant.model;
 
 import com.develhope.Java27_progetto3_team2.menu.RestaurantMenu;
+import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.TimeZone;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Entity(name = "restaurant")
+@Entity
+@Builder
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +20,9 @@ public class Restaurant {
     @JoinColumn(name = "name_restaurant")
     private String nameRestaurant;
     @Setter
-    @Column(name = "category")
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
     @Setter
-    @Column(name = "address")
     private String address;
     @Setter
     @Column(name = "opening_hours")
@@ -34,6 +32,5 @@ public class Restaurant {
     @JoinColumn(name = "menu_restaurant_id")
     private RestaurantMenu menuRestaurantID;
     @Setter
-    @Column(name = "review")
     private double review;
 }
