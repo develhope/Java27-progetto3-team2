@@ -1,9 +1,6 @@
 package com.develhope.Java27_progetto3_team2.order;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,8 +9,6 @@ import java.util.List;
 @Slf4j
 public class OrderMapper {
 
-    @Autowired
-    OrderService orderService;
 
     public Order mapperOrderDTOToOrder(OrderDTO orderDTO){
         return Order.builder().id(orderDTO.getId()).status(orderDTO.getStatus()).deliveryAddress(orderDTO.getDeliveryAddress()).paymentMethod(orderDTO.getPaymentMethod()).orderDate(orderDTO.getOrderDate()).totalPrice(orderDTO.getTotalPrice()).courierId(orderDTO.getCourierId()).build();
