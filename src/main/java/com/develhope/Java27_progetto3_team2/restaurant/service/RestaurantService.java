@@ -1,6 +1,7 @@
 package com.develhope.Java27_progetto3_team2.restaurant.service;
 
-import com.develhope.Java27_progetto3_team2.restaurant.dto.RestaurantDTO;
+import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
+import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.utils.RestaurantMapper;

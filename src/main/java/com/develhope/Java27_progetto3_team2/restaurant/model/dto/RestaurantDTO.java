@@ -1,6 +1,6 @@
-package com.develhope.Java27_progetto3_team2.restaurant.dto;
+package com.develhope.Java27_progetto3_team2.restaurant.model.dto;
 
-import com.develhope.Java27_progetto3_team2.menu.RestaurantMenuDTO;
+import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import lombok.*;
 
