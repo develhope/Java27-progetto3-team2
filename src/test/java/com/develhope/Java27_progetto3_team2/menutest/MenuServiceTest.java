@@ -22,7 +22,7 @@ import org.mockito.MockitoAnnotations;
 public class MenuServiceTest {
 
     @Mock
-    private RestaurantService  restaurantService;  // Mock for the restaurant service
+    private RestaurantService restaurantService;  // Mock for the restaurant service
 
     @Mock
     private MenuItemMapper menuItemMapper;  // Mock for the mapper
