@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.model;
 
-import com.develhope.Java27_progetto3_team2.menu.RestaurantMenu;
+import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import jakarta.persistence.*;
 import lombok.*;
