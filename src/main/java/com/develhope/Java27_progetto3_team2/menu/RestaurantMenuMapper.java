@@ -1,7 +1,5 @@
-package com.develhope.Java27_progetto3_team2.menu.mapper;
+package com.develhope.Java27_progetto3_team2.menu;
 
-import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
-import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.utils.RestaurantMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

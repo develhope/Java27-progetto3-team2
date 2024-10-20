@@ -1,11 +1,11 @@
-package com.develhope.Java27_progetto3_team2.menu.model.dto;
+package com.develhope.Java27_progetto3_team2.menu;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class MenuItemDTO {
     private Long id;
     @Setter
@@ -24,5 +24,5 @@ public class MenuItemDTO {
     private boolean glutenFreeItem;
     @Setter
     private boolean lactoseFreeItem;
-    private Long menuId;
+    private int menuId;
 }

@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.utils;
 
-import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
+import com.develhope.Java27_progetto3_team2.restaurant.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import org.springframework.stereotype.Component;
 

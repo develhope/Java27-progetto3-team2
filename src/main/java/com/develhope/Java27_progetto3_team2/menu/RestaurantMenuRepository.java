@@ -1,7 +1,6 @@
-package com.develhope.Java27_progetto3_team2.menu.repository;
+package com.develhope.Java27_progetto3_team2.menu;
 
-import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
-import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
+import com.develhope.Java27_progetto3_team2.restaurant.Restaurant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,8 +16,6 @@ public interface RestaurantMenuRepository extends JpaRepository<RestaurantMenu, 
 
     // Trova i menu di un ristorante per ID con paginazione
     Page<RestaurantMenu> findByRestaurantId(Restaurant restaurantId, Pageable pageable);
-
-    RestaurantMenu findRestaurantMenuById(Long restaurantId);
 
     /*
     Idee per Query che potremmo implementare

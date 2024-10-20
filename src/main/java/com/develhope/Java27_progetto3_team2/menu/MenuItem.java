@@ -1,12 +1,10 @@
-package com.develhope.Java27_progetto3_team2.menu.model;
+package com.develhope.Java27_progetto3_team2.menu;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity(name = "menu_item")
 public class MenuItem {
     @Id
