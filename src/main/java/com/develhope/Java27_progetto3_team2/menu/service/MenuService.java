@@ -16,6 +16,7 @@ public class MenuService {
     private MenuItemMapper menuItemMapper;
 
     public RestaurantMenuDTO getRestaurantMenu(Long idRestaurant) throws Exception {
+
         return restaurantService.getRestaurantById(idRestaurant).getMenuRestaurant();
     }
 
