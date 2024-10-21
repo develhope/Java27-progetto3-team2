@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.controller;
 
-import com.develhope.Java27_progetto3_team2.restaurant.dto.RestaurantDTO;
+import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
