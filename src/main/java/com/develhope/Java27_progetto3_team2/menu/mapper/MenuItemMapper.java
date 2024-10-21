@@ -3,7 +3,9 @@ package com.develhope.Java27_progetto3_team2.menu.mapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MenuItemMapper {
     RestaurantMenuRepository restaurantMenuRepository;
     public MenuItemDTO menuItemToMenuItemDTO (MenuItem restaurantMenuItem){

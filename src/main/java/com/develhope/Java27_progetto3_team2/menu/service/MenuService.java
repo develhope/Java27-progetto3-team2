@@ -6,10 +6,12 @@ import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class MenuService {
     private RestaurantService restaurantService;
     private RestaurantMenuRepository restaurantMenuRepository;
