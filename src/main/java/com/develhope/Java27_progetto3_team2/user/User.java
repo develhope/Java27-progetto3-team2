@@ -20,6 +20,12 @@ public class User {
     @Column(name = "surname")
     private String surname;
     @Setter
-    @Column(name = "role")
-    private String role; //Temporary untill an enumerator with roles will get implemented
+    private String username;
+    @Setter
+    private String password;
+    @Setter
+    private String email;
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
