@@ -22,7 +22,7 @@ public class RestaurantService {
 
     public Page<RestaurantDTO> getAllRestaurants(int page, int quantity){
         Pageable pageable = PageRequest.of(page,quantity);
-        Page<Restaurant> restaurantsList = restaurantRepository.findAllPaginated(pageable);
+        Page<Restaurant> restaurantsList = restaurantRepository.findAll(pageable);
         return restaurantsList.map(restaurantMapper::toDTO);
     }
 

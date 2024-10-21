@@ -44,7 +44,7 @@ class RestaurantServiceTest {
         RestaurantDTO restaurantDTO = new RestaurantDTO();
         Page<Restaurant> restaurantPage = new PageImpl<>(Collections.singletonList(restaurant));
 
-        when(restaurantRepository.findAllPaginated(pageable)).thenReturn(restaurantPage);
+        when(restaurantRepository.findAll(pageable)).thenReturn(restaurantPage);
         when(restaurantMapper.toDTO(restaurant)).thenReturn(restaurantDTO);
 
         Page<RestaurantDTO> result = restaurantService.getAllRestaurants(0, 10);

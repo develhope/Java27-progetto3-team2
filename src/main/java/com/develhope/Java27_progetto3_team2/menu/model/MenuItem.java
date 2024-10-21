@@ -1,7 +1,10 @@
 package com.develhope.Java27_progetto3_team2.menu.model;
 
+import com.develhope.Java27_progetto3_team2.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -39,4 +42,9 @@ public class MenuItem {
     @ManyToOne
     @JoinColumn(name = "restaurant_menu", nullable = false)
     private RestaurantMenu restaurantMenu;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Order> orders;
+
 }
+
