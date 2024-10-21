@@ -35,6 +35,16 @@ public class UserController {
         }
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody CreateUserDTO createUserDTO){
+        try{
+            UserDTO userDTO = userService.registerUser(createUserDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
     @PatchMapping("/{userId}/name")
     public ResponseEntity<?> changeUserName(@PathVariable("userId") Long id, @RequestParam String name) {
         try {
