@@ -22,7 +22,6 @@ public class Order {
     // Stato corrente dell'ordine (Esempi: Pending, In Preparation, Delivering, Completed ecc.)
     @Setter
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
     private OrderStatus status;
 
     // Indirizzo di consegna fornito dal cliente
