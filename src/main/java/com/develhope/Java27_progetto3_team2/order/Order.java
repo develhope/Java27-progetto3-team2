@@ -1,13 +1,9 @@
 package com.develhope.Java27_progetto3_team2.order;
 
-import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
-import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
-import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 
 @Entity
