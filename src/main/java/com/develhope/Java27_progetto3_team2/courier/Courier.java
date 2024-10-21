@@ -15,21 +15,17 @@ public class Courier {
 
     // Nome, cognome, telefono e mail del corriere
     @Setter
-    @Column(name = "name", nullable = false)
     private String name;
     @Setter
-    @Column(name = "surname")
     private String surname;
     @Setter
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
     @Setter
-    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     // Stato attuale del corriere (Available, Out for delivery, Out of service)
     @Setter
-    @Column(name = "status", nullable = false)
     private String status; //Temporaneo in attesa che un enumerator degli status venga implementato
 
 /* Altre possibili implementazioni
