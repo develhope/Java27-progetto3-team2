@@ -1,4 +1,4 @@
-package java.com.develhope.Java27progetto3team2;
+package com.develhope.Java27_progetto3_team2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
