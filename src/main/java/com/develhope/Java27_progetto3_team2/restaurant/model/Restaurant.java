@@ -27,10 +27,12 @@ public class Restaurant {
     @Setter
     @Column(name = "opening_hours")
     public TimeZone openingHours;
+
     @Setter
     @OneToOne
     @JoinColumn(name = "menu_restaurant_id")
     private RestaurantMenu menuRestaurantID;
+
     @Setter
     private double review;
 }

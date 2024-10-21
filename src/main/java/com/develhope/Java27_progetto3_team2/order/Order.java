@@ -2,10 +2,12 @@ package com.develhope.Java27_progetto3_team2.order;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.Date;
 
 
-@Entity(name = "order_entity")
+@Entity
+@Table(name = "`order`")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,18 +51,22 @@ public class Order {
     private Long courierId; //Temporaneo, in definizione se creare un'entità separata per il corriere
 
 
-/* Attributi che deriveranno dai join con le altre entity
-    // Cliente che effettua ordine
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Ristorante del quale viene effettuato l'ordine
-    @Column(name = "restaurant_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
     // Lista di piatti che compongono l'ordine, rappresentati da MenuItem
-    @Column(name = "order_id")
+    @ManyToMany
+    @JoinTable(
+            name = "order_items",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "menu_item_id")
+    )
     private List<MenuItem> items;
-*/
+
 
 }
