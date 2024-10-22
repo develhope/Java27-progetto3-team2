@@ -1,8 +1,7 @@
 package com.develhope.Java27_progetto3_team2.restaurant.service;
 
-import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
-import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
+import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.utils.RestaurantMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -40,4 +40,9 @@ public class RestaurantService {
                 .map(restaurantMapper::toDTO).toList();
     }
 
+    public RestaurantDTO addRestaurant(Restaurant restaurant){
+        restaurant.setOpeningHours(LocalDateTime.now());
+        restaurantRepository.save(restaurant);
+        return restaurantMapper.toDTO(restaurant);
+    }
 }

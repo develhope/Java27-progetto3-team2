@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.controller;
 
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,11 @@ public class RestaurantController {
     public ResponseEntity<List<RestaurantDTO>> getRestaurantByCategory(@RequestParam String category){
         List<RestaurantDTO> restaurantDTOList = restaurantService.getRestaurantByCategory(category);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTOList);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
+        RestaurantDTO restaurantDTO = restaurantService.addRestaurant(restaurant);
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
 }

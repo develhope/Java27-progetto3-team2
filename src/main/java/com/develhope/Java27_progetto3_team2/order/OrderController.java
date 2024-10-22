@@ -16,10 +16,12 @@ public class OrderController {
     OrderService orderService;
 
 
-    @PostMapping()
-    public ResponseEntity<?> addNewOrder(@RequestBody OrderDTO orderDTO){
+    @PostMapping("/{userId}_{restaurantId}")
+    public ResponseEntity<?> addNewOrder(@PathVariable("userId") Long userId,
+                                         @PathVariable ("restaurantId") Long restaurantId,
+                                         @RequestBody OrderDTO orderDTO){
         try{
-            OrderDTO newOrder = orderService.addNewOrder(orderDTO);
+            OrderDTO newOrder = orderService.addNewOrder(userId,restaurantId,orderDTO);
             log.debug("Order added in database {}", orderDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
         } catch (Exception e){
