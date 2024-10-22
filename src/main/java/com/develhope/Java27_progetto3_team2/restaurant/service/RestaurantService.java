@@ -1,5 +1,7 @@
 package com.develhope.Java27_progetto3_team2.restaurant.service;
 
+import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
+import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
@@ -19,6 +21,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
+    private final RestaurantMenuRepository restaurantMenuRepository;
 
     public Page<RestaurantDTO> getAllRestaurants(int page, int quantity){
         Pageable pageable = PageRequest.of(page,quantity);
@@ -43,6 +46,8 @@ public class RestaurantService {
     public RestaurantDTO addRestaurant(Restaurant restaurant){
         restaurant.setOpeningHours(LocalDateTime.now());
         restaurantRepository.save(restaurant);
+        RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
+        restaurantMenuRepository.save(restaurantMenu);
         return restaurantMapper.toDTO(restaurant);
     }
 }

@@ -25,4 +25,7 @@ public class RestaurantMenu {
    @Setter
    private List<MenuItem> menuItemsList = new ArrayList<>();
 
+   public RestaurantMenu(Restaurant restaurantId) {
+      this.restaurantId = restaurantId;
+   }
 }

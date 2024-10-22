@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RestaurantMenuRepository extends JpaRepository<RestaurantMenu, Long> {
@@ -18,7 +19,7 @@ public interface RestaurantMenuRepository extends JpaRepository<RestaurantMenu, 
     // Trova i menu di un ristorante per ID con paginazione
     Page<RestaurantMenu> findByRestaurantId(Restaurant restaurantId, Pageable pageable);
 
-    RestaurantMenu findRestaurantMenuById(Long restaurantId);
+    Optional<RestaurantMenu> findRestaurantMenuById(Long restaurantId);
 
     /*
     Idee per Query che potremmo implementare
