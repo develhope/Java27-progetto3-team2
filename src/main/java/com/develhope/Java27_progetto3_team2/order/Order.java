@@ -1,9 +1,13 @@
 package com.develhope.Java27_progetto3_team2.order;
 
+import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
+import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -51,10 +55,12 @@ public class Order {
     private Long courierId; //Temporaneo, in definizione se creare un'entità separata per il corriere
 
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
@@ -66,6 +72,8 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_item_id")
     )
+
+    @Setter
     private List<MenuItem> items;
 
 
