@@ -46,8 +46,12 @@ public class MenuService {
 
     public List<MenuItemDTO> addItemToMenu(Long menuId, MenuItemDTO menuItemDTO) throws Exception{
         RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(menuId).orElseThrow(() -> new Exception("No menu found"));
+
+        //menuItemDTO.setMenuId(menuId);
+
         List<MenuItem> menuItemList = restaurantMenu.getMenuItemsList();
         menuItemList.add(menuItemMapper.menuItemDTOToMenuItem(menuItemDTO));
+
         restaurantMenu.setMenuItemsList(menuItemList);
         restaurantMenuRepository.save(restaurantMenu);
 

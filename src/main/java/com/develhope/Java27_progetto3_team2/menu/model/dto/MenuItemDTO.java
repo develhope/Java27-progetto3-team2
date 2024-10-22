@@ -24,5 +24,6 @@ public class MenuItemDTO {
     private boolean glutenFreeItem;
     @Setter
     private boolean lactoseFreeItem;
+    @Setter
     private Long menuId;
 }
