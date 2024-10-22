@@ -44,10 +44,15 @@ public class RestaurantService {
     }
 
     public RestaurantDTO addRestaurant(Restaurant restaurant){
-        restaurant.setOpeningHours(LocalDateTime.now());
-        restaurantRepository.save(restaurant);
-        RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
+        RestaurantDTO restaurantDTO = restaurantMapper.toDTO(restaurant);
+
+        restaurantDTO.setOpeningHours(LocalDateTime.now());
+        Restaurant finalRestaurant = restaurantMapper.toRestaurant(restaurantDTO);
+        RestaurantMenu restaurantMenu = new RestaurantMenu(finalRestaurant);
+        restaurantRepository.save(finalRestaurant);
+        finalRestaurant.setMenuRestaurantID(restaurantMenu);
         restaurantMenuRepository.save(restaurantMenu);
-        return restaurantMapper.toDTO(restaurant);
+
+        return restaurantDTO;
     }
 }
