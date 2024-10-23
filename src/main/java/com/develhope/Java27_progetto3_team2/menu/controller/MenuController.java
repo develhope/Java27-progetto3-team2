@@ -26,6 +26,8 @@ public class MenuController {
        }
     }
 
+
+
     @GetMapping("{idRestaurant}/items")
     public ResponseEntity<?> getRestaurantMenuItem(@PathParam("idRestaurant") Long idRestaurant){
         try{
@@ -48,10 +50,10 @@ public class MenuController {
 
     @PatchMapping("/{menuId}/")
     public ResponseEntity<?> addItemToMenu(@PathVariable("menuId") Long menuId, @RequestBody MenuItemDTO menuItemDTO) {
-        try{
-            List <MenuItemDTO> restaurantMenuDTO = menuService.addItemToMenu(menuId,menuItemDTO);
+        try {
+            List<MenuItemDTO> restaurantMenuDTO = menuService.addItemToMenu(menuId, menuItemDTO);
             return ResponseEntity.status(HttpStatus.OK).body(restaurantMenuDTO);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 

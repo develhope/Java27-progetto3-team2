@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -45,14 +44,12 @@ public class RestaurantService {
 
     public RestaurantDTO addRestaurant(Restaurant restaurant){
         RestaurantDTO restaurantDTO = restaurantMapper.toDTO(restaurant);
-
-        restaurantDTO.setOpeningHours(LocalDateTime.now());
         Restaurant finalRestaurant = restaurantMapper.toRestaurant(restaurantDTO);
         RestaurantMenu restaurantMenu = new RestaurantMenu(finalRestaurant);
         restaurantRepository.save(finalRestaurant);
         finalRestaurant.setMenuRestaurantID(restaurantMenu);
         restaurantMenuRepository.save(restaurantMenu);
 
-        return restaurantDTO;
+        return restaurantMapper.toDTO(finalRestaurant);
     }
 }

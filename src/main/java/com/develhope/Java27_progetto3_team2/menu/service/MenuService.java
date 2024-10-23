@@ -37,6 +37,7 @@ public class MenuService {
          return menuItemDTOList;
     }
 
+
     public RestaurantMenuDTO addMenuToRestaurant(Long idRestaurant)throws Exception {
         Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElseThrow(() -> new Exception("No restaurant found with id: " + idRestaurant));
         RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
