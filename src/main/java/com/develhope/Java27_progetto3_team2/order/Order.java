@@ -1,9 +1,13 @@
 package com.develhope.Java27_progetto3_team2.order;
 
+import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
+import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -38,7 +42,7 @@ public class Order {
     // Data di creazione dell'ordine
     @Setter
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     // Prezzo totale dell'ordine
     @Setter
@@ -50,11 +54,12 @@ public class Order {
     @Column(name = "courier_id", nullable = false)
     private Long courierId; //Temporaneo, in definizione se creare un'entità separata per il corriere
 
-
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;

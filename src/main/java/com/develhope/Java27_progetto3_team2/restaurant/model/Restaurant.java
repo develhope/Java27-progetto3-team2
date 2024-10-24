@@ -5,7 +5,7 @@ import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.TimeZone;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class Restaurant {
     private String address;
     @Setter
     @Column(name = "opening_hours")
-    public TimeZone openingHours;
+    public LocalDateTime openingHours;
 
     @Setter
     @OneToOne

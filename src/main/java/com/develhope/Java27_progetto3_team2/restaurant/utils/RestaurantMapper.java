@@ -10,6 +10,7 @@ public class RestaurantMapper {
     public RestaurantDTO toDTO (Restaurant restaurant){
         RestaurantDTO restaurantDTO = new RestaurantDTO();
         restaurantDTO.setNameRestaurant(restaurant.getNameRestaurant());
+        restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setCategory(restaurant.getCategory());
         restaurantDTO.setAddress(restaurant.getAddress());
         restaurantDTO.setOpeningHours(restaurant.getOpeningHours());

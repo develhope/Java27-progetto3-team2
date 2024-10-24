@@ -35,6 +35,15 @@ public class UserController {
         }
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> addUser(@RequestBody User user){
+        try {
+            UserDTO userDTO = userService.addUser(user);
+            return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
     @PatchMapping("/{userId}/name")
     public ResponseEntity<?> changeUserName(@PathVariable("userId") Long id, @RequestParam String name) {
         try {

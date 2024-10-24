@@ -38,4 +38,9 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
+    public UserDTO addUser(User user) throws Exception{
+        userRepository.save(user);
+        return userMapper.toDTO(user);
+    }
+
 }

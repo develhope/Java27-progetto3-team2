@@ -12,14 +12,14 @@ public class RestaurantMenuMapper {
 
     private final RestaurantMapper restaurantMapper;
 
-    public RestaurantMenuDTO restaurantMenuDTO (RestaurantMenu restaurantMenu){
+    public RestaurantMenuDTO toDTO (RestaurantMenu restaurantMenu){
         RestaurantMenuDTO restaurantMenuDTO = new RestaurantMenuDTO();
         restaurantMenuDTO.setMenuItemsList(restaurantMenu.getMenuItemsList());
         restaurantMenuDTO.setRestaurantId(restaurantMapper.toDTO(restaurantMenu.getRestaurantId()));
         return restaurantMenuDTO;
     }
 
-    public RestaurantMenu restaurantMenu (RestaurantMenuDTO restaurantMenuDTO){
+    public RestaurantMenu toRestaurantMenu (RestaurantMenuDTO restaurantMenuDTO){
         RestaurantMenu restaurantMenu = new RestaurantMenu();
         restaurantMenu.setMenuItemsList(restaurantMenuDTO.getMenuItemsList());
         return restaurantMenu;
