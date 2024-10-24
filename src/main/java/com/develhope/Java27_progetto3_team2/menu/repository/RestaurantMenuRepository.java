@@ -21,6 +21,9 @@ public interface RestaurantMenuRepository extends JpaRepository<RestaurantMenu, 
 
     Optional<RestaurantMenu> findRestaurantMenuById(Long restaurantId);
 
+    @Override
+    RestaurantMenu save(RestaurantMenu restaurantMenu);
+
     /*
     Idee per Query che potremmo implementare
     - Filtra piatti vegetariani e senza glutine

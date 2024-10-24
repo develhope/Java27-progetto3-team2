@@ -1,5 +1,7 @@
 package com.develhope.Java27_progetto3_team2.restaurant.controller;
 
+import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
+import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
@@ -45,4 +47,28 @@ public class RestaurantController {
         RestaurantDTO restaurantDTO = restaurantService.addRestaurant(restaurant);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
+
+
+    @GetMapping("/menu/items/{idRestaurant}")
+    public ResponseEntity<?> getRestaurantMenuItem(@PathVariable("idRestaurant") Long idRestaurant){
+        try{
+            List<MenuItemDTO> restaurantMenuItemDTO = restaurantService.getRestaurantMenuItem(idRestaurant);
+            return ResponseEntity.ok(restaurantMenuItemDTO);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/menu/{idRestaurant}")
+    public ResponseEntity<?> getRestaurantMenu(@PathVariable("idRestaurant") Long idRestaurant){
+        try{
+            RestaurantMenuDTO restaurantMenuDTO = restaurantService.getRestaurantMenu(idRestaurant);
+            return ResponseEntity.ok(restaurantMenuDTO);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
 }
