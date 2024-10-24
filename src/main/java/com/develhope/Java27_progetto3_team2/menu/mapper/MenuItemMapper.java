@@ -3,11 +3,14 @@ package com.develhope.Java27_progetto3_team2.menu.mapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MenuItemMapper {
-    RestaurantMenuRepository restaurantMenuRepository;
+    private final RestaurantMenuRepository restaurantMenuRepository;
+
     public MenuItemDTO menuItemToMenuItemDTO (MenuItem restaurantMenuItem){
         return MenuItemDTO
                 .builder()

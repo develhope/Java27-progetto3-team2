@@ -19,6 +19,7 @@ public interface RestaurantMenuRepository extends JpaRepository<RestaurantMenu, 
     // Trova i menu di un ristorante per ID con paginazione
     Page<RestaurantMenu> findByRestaurantId(Restaurant restaurantId, Pageable pageable);
 
+
     Optional<RestaurantMenu> findRestaurantMenuById(Long restaurantId);
 
     @Override
