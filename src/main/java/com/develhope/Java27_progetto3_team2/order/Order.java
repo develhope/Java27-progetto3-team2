@@ -6,7 +6,7 @@ import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -42,7 +42,7 @@ public class Order {
     // Data di creazione dell'ordine
     @Setter
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     // Prezzo totale dell'ordine
     @Setter
