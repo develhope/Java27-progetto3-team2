@@ -1,8 +1,11 @@
 package com.develhope.Java27_progetto3_team2.order;
 
+import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
+import com.develhope.Java27_progetto3_team2.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,9 +14,14 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public OrderDTO addNewOrder(OrderDTO orderDTO) throws Exception {
+    public OrderDTO addNewOrder(Long userId, Long restaurantId, OrderDTO orderDTO) throws Exception {
         Order order = orderMapper.mapperOrderDTOToOrder(orderDTO);
+        order.setUser(userRepository.findById(userId).orElseThrow(() -> new Exception("User with id: " + userId + " not found!")));
+        order.setRestaurant(restaurantRepository.findById(restaurantId).orElseThrow( () -> new Exception("Restaurant with id: " + restaurantId + " not found!")));
+        order.setOrderDate(LocalDateTime.now());
         orderRepository.save(order);
         return orderMapper.mapperOrderToOrderDTO(order);
     }
