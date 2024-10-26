@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurant")
+@RequestMapping()
 @RequiredArgsConstructor
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    @GetMapping()
+    @GetMapping("/public/restaurants")
     public ResponseEntity<Page<RestaurantDTO>> getAllRestaurant(@RequestParam int page, @RequestParam int quantity) {
         Page<RestaurantDTO> restaurantDTOList = restaurantService.getAllRestaurants(page,quantity);
         return ResponseEntity.status(HttpStatus.FOUND).body(restaurantDTOList);
@@ -36,20 +36,20 @@ public class RestaurantController {
         }
     }
 
-    @GetMapping("/category")
+    @GetMapping("/public/category")
     public ResponseEntity<List<RestaurantDTO>> getRestaurantByCategory(@RequestParam String category){
         List<RestaurantDTO> restaurantDTOList = restaurantService.getRestaurantByCategory(category);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTOList);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/manager/add")
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
         RestaurantDTO restaurantDTO = restaurantService.addRestaurant(restaurant);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
 
 
-    @GetMapping("/menu/items/{idRestaurant}")
+    @GetMapping("/public/menu/items/{idRestaurant}")
     public ResponseEntity<?> getRestaurantMenuItem(@PathVariable("idRestaurant") Long idRestaurant){
         try{
             List<MenuItemDTO> restaurantMenuItemDTO = restaurantService.getRestaurantMenuItem(idRestaurant);
@@ -60,7 +60,7 @@ public class RestaurantController {
     }
 
 
-    @GetMapping("/menu/{idRestaurant}")
+    @GetMapping("/public/menu/{idRestaurant}")
     public ResponseEntity<?> getRestaurantMenu(@PathVariable("idRestaurant") Long idRestaurant){
         try{
             RestaurantMenuDTO restaurantMenuDTO = restaurantService.getRestaurantMenu(idRestaurant);
