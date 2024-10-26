@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,5 +50,23 @@ public class OrderService {
 
     public List<OrderDTO> getAllOrder(){
         return orderMapper.fromOrderListToDTOList(orderRepository.findAll());
+    }
+
+    public List<Order> ListIdforListOrder(List<Long> orderIdList) {
+        List<Order> orderList = new ArrayList<>();
+        if(orderIdList.isEmpty()){
+            return orderList;
+        }
+        orderIdList.forEach(a->orderList.add(orderRepository.getReferenceById(a)));
+        return orderList;
+    }
+
+    public List<Long> ListOrderforListIdOrder(List<Order> orderList) {
+        List<Long> orderIdList = new ArrayList<>();
+        if(orderList.isEmpty()){
+            return orderIdList;
+        }
+        orderList.forEach(a->orderIdList.add(a.getId()));
+        return orderIdList;
     }
 }

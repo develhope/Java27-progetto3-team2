@@ -52,4 +52,5 @@ public class MenuService {
         RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
         return restaurantMenuRepository.save(restaurantMenu);
     }
+
 }
