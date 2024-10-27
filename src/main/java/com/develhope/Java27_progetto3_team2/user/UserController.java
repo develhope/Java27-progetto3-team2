@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping()
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -17,13 +17,13 @@ public class UserController {
     private final UserService userService;
 
 
-    @GetMapping("")
+    @GetMapping("/admin/users")
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam int pageSize, @RequestParam int pageItemQuantity) {
         List<UserDTO> userDTOList = userService.getAllUsers(pageSize, pageItemQuantity).toList();
         return ResponseEntity.status(HttpStatus.OK).body(userDTOList);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/admin/user/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable("userId") Long id) {
         try {
             UserDTO userDTO = userService.getUserById(id);
@@ -35,7 +35,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public ResponseEntity<?> addUser(@RequestBody User user){
         try {
             UserDTO userDTO = userService.addUser(user);
@@ -44,7 +44,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    @PatchMapping("/{userId}/name")
+    @PatchMapping("/user/{userId}/name")
     public ResponseEntity<?> changeUserName(@PathVariable("userId") Long id, @RequestParam String name) {
         try {
             UserDTO userDTO = userService.changeUserName(id, name);
@@ -56,7 +56,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{userId}/surname")
+    @PatchMapping("/user/{userId}/surname")
     public ResponseEntity<?> changeUserSurname(@PathVariable("userId") Long id, @RequestParam String surname) {
         try {
             UserDTO userDTO = userService.changerUserSurname(id, surname);

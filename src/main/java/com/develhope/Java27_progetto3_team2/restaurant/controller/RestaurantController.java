@@ -26,7 +26,7 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.FOUND).body(restaurantDTOList);
     }
 
-    @GetMapping("/{restaurantId}")
+    @GetMapping("/admin/restaurat/{restaurantId}")
     public ResponseEntity<?> getRestaurantById(@PathVariable("restaurantId") Long id){
         try {
             RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
