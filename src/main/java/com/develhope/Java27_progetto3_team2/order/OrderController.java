@@ -16,28 +16,29 @@ public class OrderController {
     OrderService orderService;
 
 
-    @PostMapping()
-    public ResponseEntity<?> addNewOrder(@RequestBody OrderDTO orderDTO){
-        try{
-            OrderDTO newOrder = orderService.addNewOrder(orderDTO);
-            log.debug("Order added in database {}", orderDTO);
+    @PostMapping("/{userId}/{restaurantId}")
+    public ResponseEntity<?> addNewOrder(@PathVariable Long userId, @PathVariable Long restaurantId, @RequestBody OrderDTO orderDTO) {
+        try {
+            OrderDTO newOrder = orderService.addNewOrder(userId, restaurantId, orderDTO);
+            log.debug("Order added to the database: {}", newOrder);
             return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
-        } catch (Exception e){
-            log.error("Error in add new order {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Error adding new order: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating order: " + e.getMessage());
         }
     }
 
     @PutMapping("/{idOrder}")
-    public ResponseEntity<?> updateOrder(@RequestBody OrderDTO orderDTO, @PathVariable("idOrder") Long idOrder) throws Exception {
+    public ResponseEntity<?> updateOrder(@RequestBody OrderDTO orderDTO, @PathVariable("idOrder") Long idOrder) {
         try {
             OrderDTO orderDTOUpdated = orderService.updateOrder(orderDTO, idOrder);
             if (orderDTOUpdated == null) {
-                return ResponseEntity.badRequest().body("Order did not updated!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order update failed!");
             }
             return ResponseEntity.ok(orderDTOUpdated);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("Error updating order with ID {}: {}", idOrder, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -45,10 +46,14 @@ public class OrderController {
     public ResponseEntity<?> deleteOrder(@PathVariable("idOrder") Long idOrder) {
         try {
             boolean isDeleted = orderService.deleteOrder(idOrder);
-            return ResponseEntity.ok("Order with id " + idOrder + " has been deleted.");
-            //return ResponseEntity.noContent().build(); <-- codice 204 No content, delete idempotente
+            if (isDeleted) {
+                return ResponseEntity.ok("Order with ID " + idOrder + " has been deleted.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order with ID " + idOrder + " not found.");
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("An error occurred while deleting the order: " + e.getMessage());
+            log.error("Error deleting order with ID {}: {}", idOrder, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting order: " + e.getMessage());
         }
     }
 
@@ -66,10 +71,10 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/all-order")
-    public ResponseEntity<List<OrderDTO>> getAllOrder(){
+    @GetMapping("/all")
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<OrderDTO> orderDTOList = orderService.getAllOrder();
-        log.debug("Get all order");
-        return ResponseEntity.status(HttpStatus.FOUND).body(orderDTOList);
+        log.debug("Fetched all orders");
+        return ResponseEntity.status(HttpStatus.OK).body(orderDTOList);
     }
 }

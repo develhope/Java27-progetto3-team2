@@ -19,7 +19,6 @@ public class OrderMapper {
 
     public Order mapperOrderDTOToOrder(OrderDTO orderDTO){
         return Order.builder()
-                .id(orderDTO.getId())
                 .status(orderDTO.getStatus())
                 .deliveryAddress(orderDTO.getDeliveryAddress())
                 .paymentMethod(orderDTO.getPaymentMethod())
