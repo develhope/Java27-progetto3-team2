@@ -26,8 +26,13 @@ public class OrderMapper {
                 .totalPrice(orderDTO.getTotalPrice())
                 .courierId(orderDTO.getCourierId())
                 .items(orderDTO.getItems().stream()
-                        .map(menuItemMapper::menuItemDTOToMenuItem)
-                        .collect(Collectors.toList()))
+                        .map(item -> {
+                            try {
+                                return menuItemMapper.menuItemDTOToMenuItem(item);
+                            } catch (Exception e) {
+                                throw new RuntimeException("Error converting MenuItemDTO to MenuItem", e);
+                            }
+                        }).collect(Collectors.toList()))
                 .build();
     }
 
