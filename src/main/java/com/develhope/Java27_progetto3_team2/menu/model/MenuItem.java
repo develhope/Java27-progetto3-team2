@@ -30,6 +30,7 @@ public class MenuItem {
     @Column(name = "item_price", nullable= false)
     private double itemPrice;
     @Setter
+    @Column(name = "availability")
     private boolean availability;
     @Setter
     @Column(name = "vegetarian_item")

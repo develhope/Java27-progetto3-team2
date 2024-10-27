@@ -9,7 +9,6 @@ public class UserMapper {
        return User.builder()
                 .name(userDTO.getName())
                 .surname(userDTO.getSurname())
-                .id(userDTO.getId())
                 .role(userDTO.getRole())
                 .build();
     }
@@ -17,7 +16,6 @@ public class UserMapper {
     public UserDTO toDTO(User user){
         return UserDTO.builder()
                 .name(user.getName())
-                .id(user.getId())
                 .surname(user.getSurname())
                 .role(user.getRole())
                 .build();

@@ -4,19 +4,24 @@ import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.TimeZone;
 
-@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class RestaurantDTO {
     private Long id;
+    @Setter
     private String nameRestaurant;
+    @Setter
     private Category category;
+    @Setter
     private String address;
-    public LocalDateTime openingHours;
+    @Setter
+    public TimeZone openingHours;
+    @Setter
     private RestaurantMenuDTO menuRestaurant;
+    @Setter
     private double review;
 }

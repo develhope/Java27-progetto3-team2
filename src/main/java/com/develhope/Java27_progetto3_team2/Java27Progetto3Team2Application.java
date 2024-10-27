@@ -8,7 +8,6 @@ public class Java27Progetto3Team2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Java27Progetto3Team2Application.class, args);
-
 	}
 
 }

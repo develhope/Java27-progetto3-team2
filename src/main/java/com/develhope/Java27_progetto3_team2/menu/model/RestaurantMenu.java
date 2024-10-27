@@ -23,10 +23,6 @@ public class RestaurantMenu {
    private Restaurant restaurantId;
    @OneToMany(mappedBy = "restaurantMenu")
    @Setter
-   private List<MenuItem> menuItemsList;
+   private List<MenuItem> menuItemsList = new ArrayList<>();
 
-   public RestaurantMenu(Restaurant restaurantId) {
-      this.restaurantId = restaurantId;
-      this.menuItemsList = new ArrayList<>();
-   }
 }
