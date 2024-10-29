@@ -31,4 +31,35 @@ public class CourierController {
         }
     }
 
+    @DeleteMapping("/{idCourier}")
+    public ResponseEntity<?> deleteCourier(@PathVariable("idCourier") Long idCourier){
+        try {
+            boolean isDeleted = courierService.deleteOrder(idCourier);
+            return ResponseEntity.ok("Courier with id " + idCourier + " has been deleted.");
+            //return ResponseEntity.noContent().build(); <-- codice 204 No content, delete idempotente
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred while deleting the order: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{idCourier}")
+    public ResponseEntity<?> getCourierById(@PathVariable("idCourier") Long idCourier){
+        try {
+            CourierDTO updatedCourier = courierService.getCourierById(idCourier);
+            return ResponseEntity.status(HttpStatus.FOUND).body(updatedCourier);
+        }catch( Exception e ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getCourierById(@RequestParam String emailCourier){
+        try {
+            CourierDTO updatedCourier = courierService.getCourierByEmail(emailCourier);
+            return ResponseEntity.status(HttpStatus.FOUND).body(updatedCourier);
+        }catch( Exception e ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }
