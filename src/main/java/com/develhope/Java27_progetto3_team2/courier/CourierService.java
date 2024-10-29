@@ -27,6 +27,7 @@ public class CourierService {
         Courier updateCourier = courierMapper.toCourier(courierDTO);
         updateCourier.setId(idCourier);
         courierRepository.save(updateCourier);
-        return courierMapper.toCourierDTO(updateCourier);
+        courierDTO = courierMapper.toCourierDTO(updateCourier);
+        return courierDTO;
     }
 }

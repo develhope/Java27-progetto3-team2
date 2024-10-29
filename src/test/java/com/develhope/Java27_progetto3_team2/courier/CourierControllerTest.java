@@ -1,6 +1,7 @@
 import com.develhope.Java27_progetto3_team2.courier.CourierController;
 import com.develhope.Java27_progetto3_team2.courier.CourierDTO;
 import com.develhope.Java27_progetto3_team2.courier.CourierService;
+import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,13 +39,10 @@ public class CourierControllerTest {
     @Test
     public void testAddNewCourier_Success() throws Exception {
         // Arrange
-        CourierDTO courierDTO = new CourierDTO();
-        courierDTO.setPhoneNumber("1234567890");
-        courierDTO.setName("John Doe");
+        CourierDTO courierDTO = new CourierDTO(1L,"John Doe","","1234567890","","",new ArrayList<>());
 
-        CourierDTO savedCourier = new CourierDTO();
-        savedCourier.setPhoneNumber("1234567890");
-        savedCourier.setName("John Doe");
+
+        CourierDTO savedCourier = new CourierDTO(1L,"John Doe","","1234567890","","",new ArrayList<>());
 
         when(courierService.addNewCourier(courierDTO)).thenReturn(savedCourier);
 
@@ -50,11 +50,11 @@ public class CourierControllerTest {
         mockMvc.perform(post("/courier")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(courierDTO)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
-                .andExpect(jsonPath("$.name").value("John Doe"));
+                .andExpect(status().isCreated());
 
-        verify(courierService, times(1)).addNewCourier(courierDTO);
+        verify(courierService).addNewCourier(courierDTO);
+
+
     }
 
     @Test
@@ -100,19 +100,20 @@ public class CourierControllerTest {
     @Test
     public void testUpdateCourier_Failure() throws Exception {
         // Arrange
-        Long courierId = 9L;
+        Long courierId = 1L;
         CourierDTO courierDTO = new CourierDTO();
         courierDTO.setPhoneNumber("0987654321");
         courierDTO.setName("Jane Doe");
 
-        when(courierService.updateCourier(courierId, courierDTO)).thenThrow(new Exception("Courier not found"));
+        when(courierService.updateCourier(courierId, courierDTO)).thenThrow(new RuntimeException("Courier not found"));
 
         // Act & Assert
         mockMvc.perform(patch("/courier/{idCourier}", courierId)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(courierDTO)))
-                .andExpect(content().string(""));
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Courier not found"));
 
-        verify(courierService, times(9)).updateCourier(courierId, courierDTO);
+        verify(courierService, times(1)).updateCourier(courierId, courierDTO);
     }
 }

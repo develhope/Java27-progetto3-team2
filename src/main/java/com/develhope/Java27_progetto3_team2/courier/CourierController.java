@@ -12,9 +12,12 @@ public class CourierController {
     private final CourierService courierService;
 
     @PostMapping()
-    public ResponseEntity<CourierDTO> addNewCourier(@RequestBody CourierDTO courierDTO) {
-        CourierDTO courierAdded = courierService.addNewCourier(courierDTO);
-        return ResponseEntity.ok(courierAdded);
+    public ResponseEntity<?> addNewCourier(@RequestBody CourierDTO courierDTO) {
+        try{
+        return ResponseEntity.status(HttpStatus.CREATED).body(courierService.addNewCourier(courierDTO));}
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PatchMapping("/{idCourier}")
