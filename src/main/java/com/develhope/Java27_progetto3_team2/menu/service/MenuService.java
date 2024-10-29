@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.menu.service;
 
+import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
@@ -25,7 +26,11 @@ public class MenuService {
     private final MenuItemMapper menuItemMapper;
     private final RestaurantMenuMapper restaurantMenuMapper;
     private final MenuItemRepository menuItemRepository;
+
     public RestaurantMenuDTO addMenuToRestaurant(Long idRestaurant) {
+        if (idRestaurant <= 0) {
+            throw new InvalidRequestException("Restaurant ID must be positive.");
+        }
         Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElseThrow(() -> new NotFoundException("No restaurant found with id: " + idRestaurant));
         RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
         restaurantMenuRepository.save(restaurantMenu);
@@ -33,6 +38,9 @@ public class MenuService {
     }
     @Transactional
     public List<MenuItemDTO> addItemToMenu(Long menuId, MenuItemDTO menuItemDTO) {
+        if (menuId <= 0) {
+            throw new InvalidRequestException("Menu ID must be positive.");
+        }
         menuItemRepository.save(menuItemMapper.menuItemDTOToMenuItem(menuItemDTO));
         RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(menuId).orElseThrow(() -> new NotFoundException("No menu found"));
 

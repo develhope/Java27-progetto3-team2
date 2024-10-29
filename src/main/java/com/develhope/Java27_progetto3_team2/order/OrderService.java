@@ -2,6 +2,7 @@ package com.develhope.Java27_progetto3_team2.order;
 
 
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
@@ -31,6 +32,10 @@ public class OrderService {
     }
 
     public OrderDTO addNewOrder(Long userId, Long restaurantId, OrderDTO orderDTO) {
+        if (userId <= 0 || restaurantId <= 0) {
+            throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -45,6 +50,10 @@ public class OrderService {
                         .orElseThrow(() -> new NotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                 .collect(Collectors.toList());
 
+        if (menuItems.isEmpty()) { // Controllo che l'ordine abbia almeno un item
+            throw new InvalidRequestException("Order must contain at least one menu item.");
+        }
+
         order.setItems(menuItems);
         order.setTotalPrice(calculateTotalPrice(menuItems));
         order.setOrderDate(LocalDateTime.now());
@@ -57,6 +66,10 @@ public class OrderService {
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) {
         Order existingOrder = orderRepository.findById(idOrder)
                 .orElseThrow(() -> new NotFoundException("Order with id " + idOrder + " not found"));
+
+        if (existingOrder.getStatus() == OrderStatus.COMPLETED) {
+            throw new InvalidRequestException("Cannot modify a completed order.");
+        }
 
         // Aggiorno solo i campi modificabili
         existingOrder.setDeliveryAddress(orderDTO.getDeliveryAddress());
@@ -80,6 +93,14 @@ public class OrderService {
         if (!orderRepository.existsById(idOrder)) {
             throw new NotFoundException("Order with id " + idOrder + " not found");
         }
+
+        Order existingOrder = orderRepository.findById(idOrder)
+                .orElseThrow(() -> new NotFoundException("Order with id " + idOrder + " not found"));
+
+        if (existingOrder.getStatus() == OrderStatus.COMPLETED) {
+            throw new InvalidRequestException("Cannot delete a completed order.");
+        }
+
         orderRepository.deleteById(idOrder);
         return true;
     }
