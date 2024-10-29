@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.menu.service;
 
+import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
@@ -24,16 +25,16 @@ public class MenuService {
     private final MenuItemMapper menuItemMapper;
     private final RestaurantMenuMapper restaurantMenuMapper;
     private final MenuItemRepository menuItemRepository;
-    public RestaurantMenuDTO addMenuToRestaurant(Long idRestaurant) throws Exception {
-        Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElseThrow(() -> new Exception("No restaurant found with id: " + idRestaurant));
+    public RestaurantMenuDTO addMenuToRestaurant(Long idRestaurant) {
+        Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElseThrow(() -> new NotFoundException("No restaurant found with id: " + idRestaurant));
         RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
         restaurantMenuRepository.save(restaurantMenu);
         return restaurantMenuMapper.toDTO(restaurantMenu);
     }
     @Transactional
-    public List<MenuItemDTO> addItemToMenu(Long menuId, MenuItemDTO menuItemDTO) throws Exception {
+    public List<MenuItemDTO> addItemToMenu(Long menuId, MenuItemDTO menuItemDTO) {
         menuItemRepository.save(menuItemMapper.menuItemDTOToMenuItem(menuItemDTO));
-        RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(menuId).orElseThrow(() -> new Exception("No menu found"));
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(menuId).orElseThrow(() -> new NotFoundException("No menu found"));
 
         menuItemDTO.setMenuId(menuId);
 

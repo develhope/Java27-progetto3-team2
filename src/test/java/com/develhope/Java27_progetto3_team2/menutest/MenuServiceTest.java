@@ -36,7 +36,7 @@ public class MenuServiceTest {
     private MenuItemDTO mockMenuItemDTO;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
         // Creating mocked objects
@@ -57,7 +57,7 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void testGetRestaurantMenu() throws Exception {
+    public void testGetRestaurantMenu() {
         RestaurantMenuDTO result = menuService.getRestaurantMenu(1L);
 
         // Verify that restaurantService.getRestaurantById was called with the correct argument
@@ -68,7 +68,7 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void testGetRestaurantMenuItem() throws Exception {
+    public void testGetRestaurantMenuItem() {
         List<MenuItemDTO> result = menuService.getRestaurantMenuItem(1L);
 
         // Verify that restaurantService.getRestaurantById was called
