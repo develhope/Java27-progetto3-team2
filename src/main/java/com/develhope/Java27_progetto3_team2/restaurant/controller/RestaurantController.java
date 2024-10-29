@@ -27,13 +27,9 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}")
-    public ResponseEntity<?> getRestaurantById(@PathVariable("restaurantId") Long id){
-        try {
-            RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
-            return ResponseEntity.status(HttpStatus.FOUND).body(restaurantDTO);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable("restaurantId") Long id){
+        RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
 
     @GetMapping("/category")
@@ -50,24 +46,16 @@ public class RestaurantController {
 
 
     @GetMapping("/menu/items/{idRestaurant}")
-    public ResponseEntity<?> getRestaurantMenuItem(@PathVariable("idRestaurant") Long idRestaurant){
-        try{
-            List<MenuItemDTO> restaurantMenuItemDTO = restaurantService.getRestaurantMenuItem(idRestaurant);
-            return ResponseEntity.ok(restaurantMenuItemDTO);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<List<MenuItemDTO>> getRestaurantMenuItem(@PathVariable("idRestaurant") Long idRestaurant){
+        List<MenuItemDTO> restaurantMenuItemDTO = restaurantService.getRestaurantMenuItem(idRestaurant);
+        return ResponseEntity.ok(restaurantMenuItemDTO);
     }
 
 
     @GetMapping("/menu/{idRestaurant}")
-    public ResponseEntity<?> getRestaurantMenu(@PathVariable("idRestaurant") Long idRestaurant){
-        try{
-            RestaurantMenuDTO restaurantMenuDTO = restaurantService.getRestaurantMenu(idRestaurant);
-            return ResponseEntity.ok(restaurantMenuDTO);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<RestaurantMenuDTO> getRestaurantMenu(@PathVariable("idRestaurant") Long idRestaurant){
+        RestaurantMenuDTO restaurantMenuDTO = restaurantService.getRestaurantMenu(idRestaurant);
+        return ResponseEntity.ok(restaurantMenuDTO);
     }
 
 

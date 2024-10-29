@@ -24,47 +24,29 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable("userId") Long id) {
-        try {
-            UserDTO userDTO = userService.getUserById(id);
-            log.debug("User with id:{} found", id);
-            return ResponseEntity.status(HttpStatus.FOUND).body(userDTO);
-        } catch (Exception e) {
-            log.error("User with id:{} not found", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("userId") Long id) {
+        UserDTO userDTO = userService.getUserById(id);
+        log.debug("User with id:{} found", id);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@RequestBody User user){
-        try {
-            UserDTO userDTO = userService.addUser(user);
-            return ResponseEntity.status(HttpStatus.OK).body(userDTO);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> addUser(@RequestBody User user){
+        UserDTO userDTO = userService.addUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
+
     @PatchMapping("/{userId}/name")
-    public ResponseEntity<?> changeUserName(@PathVariable("userId") Long id, @RequestParam String name) {
-        try {
-            UserDTO userDTO = userService.changeUserName(id, name);
-            log.debug("Changed name of user with id {}", id);
-            return ResponseEntity.status(HttpStatus.OK).body(userDTO);
-        } catch (Exception e){
-            log.error("User with id:{} not found", e.getMessage(),e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> changeUserName(@PathVariable("userId") Long id, @RequestParam String name) {
+        UserDTO userDTO = userService.changeUserName(id, name);
+        log.debug("Changed name of user with id {}", id);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
     @PatchMapping("/{userId}/surname")
-    public ResponseEntity<?> changeUserSurname(@PathVariable("userId") Long id, @RequestParam String surname) {
-        try {
-            UserDTO userDTO = userService.changerUserSurname(id, surname);
-            log.debug("Changed surname of user with id {}", id);
-            return ResponseEntity.status(HttpStatus.OK).body(userDTO);
-        } catch (Exception e){
-            log.error("User with id:{} not found", e.getMessage(),e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> changeUserSurname(@PathVariable("userId") Long id, @RequestParam String surname) {
+        UserDTO userDTO = userService.changerUserSurname(id, surname);
+        log.debug("Changed surname of user with id {}", id);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 }
