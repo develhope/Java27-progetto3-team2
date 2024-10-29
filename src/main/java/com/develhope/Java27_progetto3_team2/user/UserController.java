@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping()
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -17,36 +17,37 @@ public class UserController {
     private final UserService userService;
 
 
-    @GetMapping("")
+    @GetMapping("/admin/users")
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam int pageSize, @RequestParam int pageItemQuantity) {
         List<UserDTO> userDTOList = userService.getAllUsers(pageSize, pageItemQuantity).toList();
         return ResponseEntity.status(HttpStatus.OK).body(userDTOList);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/admin/user/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable("userId") Long id) {
         UserDTO userDTO = userService.getUserById(id);
         log.debug("User with id:{} found", id);
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public ResponseEntity<UserDTO> addUser(@RequestBody User user){
         UserDTO userDTO = userService.addUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
-    @PatchMapping("/{userId}/name")
+    @PatchMapping("/user/{userId}/name")
     public ResponseEntity<UserDTO> changeUserName(@PathVariable("userId") Long id, @RequestParam String name) {
         UserDTO userDTO = userService.changeUserName(id, name);
         log.debug("Changed name of user with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
-    @PatchMapping("/{userId}/surname")
+    @PatchMapping("/user/{userId}/surname")
     public ResponseEntity<UserDTO> changeUserSurname(@PathVariable("userId") Long id, @RequestParam String surname) {
         UserDTO userDTO = userService.changerUserSurname(id, surname);
         log.debug("Changed surname of user with id {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+
     }
 }

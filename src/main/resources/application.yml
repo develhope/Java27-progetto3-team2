@@ -1,6 +1,9 @@
 spring:
   application:
     name: esercizio26092024
+    secret:
+      key:
+    expiration: 1800000
   jpa:
     hibernate:
       dialect: jakarta.persistence.jdbc.url
