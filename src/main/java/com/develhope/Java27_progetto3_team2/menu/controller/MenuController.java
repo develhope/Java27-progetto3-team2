@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/restaurantMenu/")
 @RequiredArgsConstructor
@@ -15,23 +17,14 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping("/menu/{restaurantId}")
-    public ResponseEntity<?> createMenuForRestaurant(@PathVariable("restaurantId") Long restaurantId){
-        try{
-            RestaurantMenuDTO restaurantMenuDTO = menuService.addMenuToRestaurant(restaurantId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(restaurantMenuDTO);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<RestaurantMenuDTO> createMenuForRestaurant(@PathVariable("restaurantId") Long restaurantId){
+        RestaurantMenuDTO restaurantMenuDTO = menuService.addMenuToRestaurant(restaurantId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(restaurantMenuDTO);
     }
 
     @PatchMapping("/{menuId}")
-    public ResponseEntity<?> addItemToMenu(@PathVariable("menuId") Long menuId, @RequestBody MenuItemDTO menuItemDTO) {
-        try {
-            menuService.addItemToMenu(menuId, menuItemDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(menuItemDTO);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-
+    public ResponseEntity<List<MenuItemDTO>> addItemToMenu(@PathVariable("menuId") Long menuId, @RequestBody MenuItemDTO menuItemDTO) {
+        List<MenuItemDTO> menuItemDTOList = menuService.addItemToMenu(menuId, menuItemDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(menuItemDTOList);
     }
 }
