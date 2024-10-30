@@ -1,16 +1,20 @@
 package com.develhope.Java27_progetto3_team2.order;
 
+
+import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +33,14 @@ public class OrderService {
     }
 
     public OrderDTO addNewOrder(Long userId, Long restaurantId, OrderDTO orderDTO) {
+        if (userId <= 0 || restaurantId <= 0) {
+            throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
+        }
+
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+                .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant with id " + restaurantId + " not found"));
+                .orElseThrow(() -> new NotFoundException("Restaurant with id " + restaurantId + " not found"));
 
         Order order = orderMapper.mapperOrderDTOToOrder(orderDTO);
         order.setUser(user);
@@ -40,8 +48,12 @@ public class OrderService {
 
         List<MenuItem> menuItems = orderDTO.getItems().stream()
                 .map(menuItemDTO -> menuItemRepository.findById(menuItemDTO.getId())
-                        .orElseThrow(() -> new EntityNotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
+                        .orElseThrow(() -> new NotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                 .collect(Collectors.toList());
+
+        if (menuItems.isEmpty()) { // Controllo che l'ordine abbia almeno un item
+            throw new InvalidRequestException("Order must contain at least one menu item.");
+        }
 
         order.setItems(menuItems);
         order.setTotalPrice(calculateTotalPrice(menuItems));
@@ -49,11 +61,16 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
         return orderMapper.mapperOrderToOrderDTO(savedOrder);
+
     }
 
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) {
         Order existingOrder = orderRepository.findById(idOrder)
-                .orElseThrow(() -> new EntityNotFoundException("Order with id " + idOrder + " not found"));
+                .orElseThrow(() -> new NotFoundException("Order with id " + idOrder + " not found"));
+
+        if (existingOrder.getStatus() == OrderStatus.COMPLETED) {
+            throw new InvalidRequestException("Cannot modify a completed order.");
+        }
 
         // Aggiorno solo i campi modificabili
         existingOrder.setDeliveryAddress(orderDTO.getDeliveryAddress());
@@ -63,7 +80,7 @@ public class OrderService {
         if (orderDTO.getItems() != null && !orderDTO.getItems().isEmpty()) {
             List<MenuItem> menuItems = orderDTO.getItems().stream()
                     .map(menuItemDTO -> menuItemRepository.findById(menuItemDTO.getId())
-                            .orElseThrow(() -> new EntityNotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
+                            .orElseThrow(() -> new NotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                     .collect(Collectors.toList());
             existingOrder.setItems(menuItems);
             existingOrder.setTotalPrice(calculateTotalPrice(menuItems));
@@ -75,8 +92,16 @@ public class OrderService {
 
     public boolean deleteOrder(Long idOrder) {
         if (!orderRepository.existsById(idOrder)) {
-            throw new EntityNotFoundException("Order with id " + idOrder + " not found");
+            throw new NotFoundException("Order with id " + idOrder + " not found");
         }
+
+        Order existingOrder = orderRepository.findById(idOrder)
+                .orElseThrow(() -> new NotFoundException("Order with id " + idOrder + " not found"));
+
+        if (existingOrder.getStatus() == OrderStatus.COMPLETED) {
+            throw new InvalidRequestException("Cannot delete a completed order.");
+        }
+
         orderRepository.deleteById(idOrder);
         return true;
     }
@@ -88,5 +113,23 @@ public class OrderService {
 
     public List<OrderDTO> getAllOrder() {
         return orderMapper.fromOrderListToDTOList(orderRepository.findAll());
+    }
+
+    public List<Order> ListIdforListOrder(List<Long> orderIdList) {
+        List<Order> orderList = new ArrayList<>();
+        if(orderIdList.isEmpty()){
+            return orderList;
+        }
+        orderIdList.forEach(a->orderList.add(orderRepository.getReferenceById(a)));
+        return orderList;
+    }
+
+    public List<Long> ListOrderforListIdOrder(List<Order> orderList) {
+        List<Long> orderIdList = new ArrayList<>();
+        if(orderList.isEmpty()){
+            return orderIdList;
+        }
+        orderList.forEach(a->orderIdList.add(a.getId()));
+        return orderIdList;
     }
 }

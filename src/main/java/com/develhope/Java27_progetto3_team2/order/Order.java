@@ -26,7 +26,6 @@ public class Order {
     // Stato corrente dell'ordine (Esempi: Pending, In Preparation, Delivering, Completed ecc.)
     @Setter
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
     private OrderStatus status;
 
     // Indirizzo di consegna fornito dal cliente
@@ -53,7 +52,6 @@ public class Order {
     @Setter
     @Column(name = "courier_id", nullable = false)
     private Long courierId; //Temporaneo, in definizione se creare un'entità separata per il corriere
-
 
     @Setter
     @ManyToOne

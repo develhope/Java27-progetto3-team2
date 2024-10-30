@@ -2,10 +2,11 @@ package com.develhope.Java27_progetto3_team2.restaurant.model;
 
 import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
+import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.TimeZone;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +27,11 @@ public class Restaurant {
     private String address;
     @Setter
     @Column(name = "opening_hours")
-    public TimeZone openingHours;
+    private LocalDateTime openingHours;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Setter
     @OneToOne

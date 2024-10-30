@@ -1,25 +1,72 @@
 package com.develhope.Java27_progetto3_team2.user;
 
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity(name = "user")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    @Column(name = "name")
     private String name;
     @Setter
-    @Column(name = "surname")
     private String surname;
     @Setter
-    @Column(name = "role")
-    private String role; //Temporary untill an enumerator with roles will get implemented
+    private String email;
+    @Setter
+    private String password;
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToOne
+    private Restaurant restaurant;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
