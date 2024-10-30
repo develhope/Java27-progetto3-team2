@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.service;
 
+import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
@@ -33,10 +34,10 @@ public class RestaurantService {
         return restaurantsList.map(restaurantMapper::toDTO);
     }
 
-    public RestaurantDTO getRestaurantById(Long id) throws Exception {
+    public RestaurantDTO getRestaurantById(Long id) {
         Restaurant restaurant = restaurantRepository
                 .findById(id)
-                .orElseThrow(() -> new Exception("Restaurant with id: " + id + " not found!"));
+                .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
         return restaurantMapper.toDTO(restaurant);
     }
 
@@ -55,11 +56,11 @@ public class RestaurantService {
         return restaurantMapper.toDTO(finalRestaurant);
     }
 
-    public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) throws Exception {
+    public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) {
         return getRestaurantById(restaurantId).getMenuRestaurant();
     }
 
-    public List<MenuItemDTO> getRestaurantMenuItem(Long restaurantId) throws Exception {
+    public List<MenuItemDTO> getRestaurantMenuItem(Long restaurantId) {
         List<MenuItem> menuItemList = getRestaurantById(restaurantId).getMenuRestaurant().getMenuItemsList();
         List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
         menuItemList.forEach(a -> menuItemDTOList.add(menuItemMapper.menuItemToMenuItemDTO(a)));
