@@ -36,7 +36,9 @@ CREATE TABLE `order_entity` (
   `delivery_address` varchar(255) NOT NULL,
   `payment_method` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY `courier_fk`(`courier_id`),
+  CONSTRAINT courier_fk FOREIGN KEY (`courier_id`) REFERENCES `courier` (`id`)
 );
 
 CREATE TABLE `restaurant` (
