@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.menu.mapper;
 
+import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
@@ -27,7 +28,7 @@ public class MenuItemMapper {
                 .build();
     }
 
-    public MenuItem menuItemDTOToMenuItem (MenuItemDTO restaurantMenuItemDTO) throws Exception {
+    public MenuItem menuItemDTOToMenuItem (MenuItemDTO restaurantMenuItemDTO) {
         return MenuItem
                 .builder()
                 .id(restaurantMenuItemDTO.getId())
@@ -40,7 +41,7 @@ public class MenuItemMapper {
                 .glutenFreeItem(restaurantMenuItemDTO.isGlutenFreeItem())
                 .lactoseFreeItem(restaurantMenuItemDTO.isLactoseFreeItem())
                 .restaurantMenu(restaurantMenuRepository.findRestaurantMenuById(restaurantMenuItemDTO.getMenuId())
-                        .orElseThrow(() -> new Exception("No menu found")))
+                        .orElseThrow(() -> new NotFoundException("No menu found")))
                 .build();
     }
 }

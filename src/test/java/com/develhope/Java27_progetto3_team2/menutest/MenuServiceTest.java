@@ -31,13 +31,14 @@ public class MenuServiceTest {
         mockMvc = MockMvcBuilders.standaloneSetup(menuController).build();
     }
 
-    @Test
-    public void testCreateMenuForRestaurant_Success() throws Exception {
-        Long restaurantId = 1L;
-        RestaurantMenuDTO mockRestaurantMenuDTO = new RestaurantMenuDTO();
 
-        // Define the behavior for menuService.addMenuToRestaurant
-        when(menuService.addMenuToRestaurant(restaurantId)).thenReturn(mockRestaurantMenuDTO);
+
+
+
+@Test
+    public void testGetRestaurantMenu() {
+        RestaurantMenuDTO result = menuService.getRestaurantMenu(1L);
+
 
         // Perform the POST request and validate the response
         mockMvc.perform(post("/restaurantMenu/menu/{restaurantId}", restaurantId))
@@ -49,8 +50,10 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void testCreateMenuForRestaurant_Failure() throws Exception {
-        Long restaurantId = 1L;
+
+    public void testGetRestaurantMenuItem() {
+        List<MenuItemDTO> result = menuService.getRestaurantMenuItem(1L);
+
 
         // Simulate an exception being thrown by menuService
         when(menuService.addMenuToRestaurant(restaurantId)).thenThrow(new Exception("Error creating menu"));
