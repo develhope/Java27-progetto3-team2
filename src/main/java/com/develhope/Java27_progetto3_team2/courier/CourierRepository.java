@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface CourierRepository extends JpaRepository<Courier, Long> {
+    Courier findByEmail(String email);
+
 }
