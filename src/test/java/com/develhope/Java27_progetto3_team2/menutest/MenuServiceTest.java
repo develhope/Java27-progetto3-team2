@@ -32,6 +32,8 @@ public class MenuServiceTest {
     }
 
     @Test
+
+
     public void testGetRestaurantMenu() {
         RestaurantMenuDTO result = menuService.getRestaurantMenu(1L);
 
@@ -46,7 +48,10 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void testGetRestaurantMenuItem() {
+
+
+
+public void testGetRestaurantMenuItem() {
         List<MenuItemDTO> result = menuService.getRestaurantMenuItem(1L);
 
 
