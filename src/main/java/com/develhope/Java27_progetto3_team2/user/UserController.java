@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,13 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam int pageSize, @RequestParam int pageItemQuantity) {
         List<UserDTO> userDTOList = userService.getAllUsers(pageSize, pageItemQuantity).toList();
         return ResponseEntity.status(HttpStatus.OK).body(userDTOList);
+    }
+
+    //The accessibility is set to User just to show the functionality
+    @PatchMapping("/user/role")
+    public ResponseEntity<UserDTO> changeUserRole(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String role){
+        UserDTO userDTO = userService.changeUserRole(userDetails,role);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
     @GetMapping("/admin/user/{userId}")
