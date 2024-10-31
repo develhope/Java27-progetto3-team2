@@ -19,8 +19,8 @@ import java.util.List;
 public class CourierService {
     private final CourierMapper courierMapper;
     private final CourierRepository courierRepository;
-    private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
     public CourierDTO addNewCourier(CourierDTO courierDTO) {
         if(courierDTO.getOrderList()==null){
@@ -70,7 +70,7 @@ public class CourierService {
         if(courierRepository.existsByEmail(userDetails.getUsername())){
             throw new CourierAlreadyExistException("Courier with email: " + userDetails.getUsername() + " already exists");
         }
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = (User) userDetails;
         CourierDTO courierDTO = CourierDTO.builder()
                 .email(user.getUsername())
                 .name(user.getName())
@@ -86,7 +86,7 @@ public class CourierService {
     public CourierDTO changeApplicationStatus(Long coruerId, String newStatus){
         Courier courier = courierRepository.findById(coruerId).orElseThrow(() -> new NotFoundException("Coruer with id: " + coruerId + " not found"));
         courier.setStatus(CourierStatus.valueOf(newStatus));
-        if(courier.getStatus().equals(CourierStatus.AVAILABLE)){
+        if(courier.getStatus().equals(CourierStatus.ACCEPTED)){
             User user = userRepository.findByEmail(courier.getEmail()).orElseThrow(() -> new NotFoundException("Coruer with email: " + courier.getEmail() + " not found"));
             user.setRole(Role.ROLE_COURIER);
         }
