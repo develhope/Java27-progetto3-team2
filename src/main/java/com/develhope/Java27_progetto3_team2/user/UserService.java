@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,4 +45,11 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
+    public UserDTO changeUserRole(UserDetails userDetails,String role){
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User with email: " + userDetails.getUsername() + " nout found!"));
+        user.setRole(Role.valueOf(role.toUpperCase()));
+        userRepository.save(user);
+
+        return userMapper.toDTO(user);
+    }
 }
