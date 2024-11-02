@@ -28,7 +28,7 @@ public class RestaurantController {
 
     @GetMapping("/admin/restaurat/{restaurantId}")
     public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable("restaurantId") Long id){
-        RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
+        RestaurantDTO restaurantDTO = restaurantService.getRestaurantDTOById(id);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
 

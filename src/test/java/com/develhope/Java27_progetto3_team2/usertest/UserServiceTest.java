@@ -71,7 +71,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserById() throws Exception {
+    void getUserDTOById() throws Exception {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userMapper.toDTO(user)).thenReturn(userDTO);
 

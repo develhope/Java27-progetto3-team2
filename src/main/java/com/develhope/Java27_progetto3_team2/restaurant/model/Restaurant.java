@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.model;
 
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import com.develhope.Java27_progetto3_team2.user.User;
@@ -7,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,4 +42,7 @@ public class Restaurant {
 
     @Setter
     private double review;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Cart> carts;
 }

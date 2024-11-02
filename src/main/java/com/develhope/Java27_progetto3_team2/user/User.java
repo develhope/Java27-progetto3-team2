@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.user;
 
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,9 @@ public class User implements UserDetails {
 
     @OneToOne
     private Restaurant restaurant;
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

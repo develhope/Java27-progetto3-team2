@@ -34,11 +34,18 @@ public class RestaurantService {
         return restaurantsList.map(restaurantMapper::toDTO);
     }
 
-    public RestaurantDTO getRestaurantById(Long id) {
+    public RestaurantDTO getRestaurantDTOById(Long id) {
         Restaurant restaurant = restaurantRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
         return restaurantMapper.toDTO(restaurant);
+    }
+
+    public Restaurant getRestaurantById(Long id) {
+        Restaurant restaurant = restaurantRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
+        return restaurant;
     }
 
     public List<RestaurantDTO> getRestaurantByCategory(String category){
@@ -57,11 +64,11 @@ public class RestaurantService {
     }
 
     public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) {
-        return getRestaurantById(restaurantId).getMenuRestaurant();
+        return getRestaurantDTOById(restaurantId).getMenuRestaurant();
     }
 
     public List<MenuItemDTO> getRestaurantMenuItem(Long restaurantId) {
-        List<MenuItem> menuItemList = getRestaurantById(restaurantId).getMenuRestaurant().getMenuItemsList();
+        List<MenuItem> menuItemList = getRestaurantDTOById(restaurantId).getMenuRestaurant().getMenuItemsList();
         List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
         menuItemList.forEach(a -> menuItemDTOList.add(menuItemMapper.menuItemToMenuItemDTO(a)));
         return menuItemDTOList;

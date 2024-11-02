@@ -1,5 +1,7 @@
 package com.develhope.Java27_progetto3_team2.menu.model;
 
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
+import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,5 +49,7 @@ public class MenuItem {
     @ManyToMany(mappedBy = "items")
     private List<Order> orders;
 
+    @OneToMany(mappedBy = "menuItem")
+    private List<CartItem> cartItem;
 }
 

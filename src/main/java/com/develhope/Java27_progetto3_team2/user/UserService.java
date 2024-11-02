@@ -20,9 +20,14 @@ public class UserService {
         return userDTOPage.map(userMapper::toDTO);
     }
 
-    public UserDTO getUserById(Long id){
+    public UserDTO getUserDTOById(Long id){
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
         return userMapper.toDTO(user);
+    }
+
+    public User getUserById(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+        return user;
     }
 
     public UserDTO changeUserName(Long id, String name){
