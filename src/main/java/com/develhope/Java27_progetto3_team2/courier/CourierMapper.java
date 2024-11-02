@@ -5,7 +5,6 @@ import com.develhope.Java27_progetto3_team2.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

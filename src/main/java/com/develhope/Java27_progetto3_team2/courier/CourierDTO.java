@@ -1,14 +1,18 @@
 package com.develhope.Java27_progetto3_team2.courier;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class CourierDTO {
 
     private Long id;
@@ -23,7 +27,7 @@ public class CourierDTO {
     @Setter
     private String email;
     @Setter
-    private String status; // In attesa dell'enumerator
+    private CourierStatus status; // In attesa dell'enumerator
     @Setter
     private List<Long> orderList;
 

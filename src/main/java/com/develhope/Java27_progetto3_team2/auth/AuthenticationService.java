@@ -25,6 +25,7 @@ public class AuthenticationService {
                 .surname(registerRequest.getLastname())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .phoneNumber(registerRequest.getPhoneNumber())
                 .role(Role.ROLE_USER)
                 .build();
         userRepository.save(user);

@@ -32,6 +32,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Setter
+    private String phoneNumber;
+
     @OneToOne
     private Restaurant restaurant;
 
