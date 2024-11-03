@@ -46,10 +46,9 @@ public class RestaurantService {
     }
 
     public Restaurant getRestaurantById(Long id) {
-        Restaurant restaurant = restaurantRepository
+        return restaurantRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
-        return restaurant;
     }
 
     public List<RestaurantDTO> getRestaurantByCategory(String category){
@@ -62,7 +61,7 @@ public class RestaurantService {
     public RestaurantDTO addRestaurant(Restaurant restaurant, UserDetails userDetails){
         restaurant.setUser((User) userDetails);
         restaurantRepository.save(restaurant);
-        menuService.saveMenuToRestaurant(restaurant);
+        restaurant.setMenuRestaurantID(menuService.saveMenuToRestaurant(restaurant));
         userService.addRestaurantToUser(userDetails,restaurant);
         return restaurantMapper.toDTO(restaurant);
     }

@@ -1,6 +1,5 @@
 package com.develhope.Java27_progetto3_team2.menu.service;
 
-import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
@@ -14,6 +13,7 @@ import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,31 +27,23 @@ public class MenuService {
     private final RestaurantMenuMapper restaurantMenuMapper;
     private final MenuItemRepository menuItemRepository;
 
-    public RestaurantMenuDTO addMenuToRestaurant(Long idRestaurant) {
-        if (idRestaurant <= 0) {
-            throw new InvalidRequestException("Restaurant ID must be positive.");
-        }
-        Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElseThrow(() -> new NotFoundException("No restaurant found with id: " + idRestaurant));
+    public RestaurantMenuDTO addMenuToRestaurant(UserDetails userDetails) {
+        Restaurant restaurant = restaurantRepository.findByUser_Email(userDetails.getUsername());
         RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
         restaurantMenuRepository.save(restaurantMenu);
         return restaurantMenuMapper.toDTO(restaurantMenu);
     }
+
     @Transactional
-    public List<MenuItemDTO> addItemToMenu(Long menuId, MenuItemDTO menuItemDTO) {
-        if (menuId <= 0) {
-            throw new InvalidRequestException("Menu ID must be positive.");
-        }
-        menuItemRepository.save(menuItemMapper.menuItemDTOToMenuItem(menuItemDTO));
-        RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(menuId).orElseThrow(() -> new NotFoundException("No menu found"));
-
-        menuItemDTO.setMenuId(menuId);
-
+    public List<MenuItemDTO> addItemToMenu(UserDetails userDetails, MenuItem menuItem) {
+        Restaurant restaurant = restaurantRepository.findByUser_Email(userDetails.getUsername());
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(restaurant.getId()).orElseThrow(() -> new NotFoundException("No menu found"));
+        menuItem.setRestaurantMenu(restaurantMenu);
+        menuItemRepository.save(menuItem);
         List<MenuItem> menuItemList = restaurantMenu.getMenuItemsList();
-        menuItemList.add(menuItemMapper.menuItemDTOToMenuItem(menuItemDTO));
-
+        menuItemList.add(menuItem);
         restaurantMenu.setMenuItemsList(menuItemList);
         restaurantMenuRepository.save(restaurantMenu);
-
         return menuItemList.stream().map(menuItemMapper::menuItemToMenuItemDTO).toList();
     }
 
