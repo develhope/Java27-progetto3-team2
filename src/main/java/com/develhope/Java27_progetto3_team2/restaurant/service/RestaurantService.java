@@ -2,7 +2,9 @@ package com.develhope.Java27_progetto3_team2.restaurant.service;
 
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
+import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
+import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuService;
@@ -31,6 +33,7 @@ public class RestaurantService {
     private final MenuService menuService;
     private final MenuItemMapper menuItemMapper;
     private final UserService userService;
+    private final RestaurantMenuMapper restaurantMenuMapper;
 
     public Page<RestaurantDTO> getAllRestaurants(int page, int quantity){
         Pageable pageable = PageRequest.of(page,quantity);
@@ -61,13 +64,19 @@ public class RestaurantService {
     public RestaurantDTO addRestaurant(Restaurant restaurant, UserDetails userDetails){
         restaurant.setUser((User) userDetails);
         restaurantRepository.save(restaurant);
-        restaurant.setMenuRestaurantID(menuService.saveMenuToRestaurant(restaurant));
-        userService.addRestaurantToUser(userDetails,restaurant);
+
+        RestaurantMenu restaurantMenu = menuService.saveMenuToRestaurant(restaurant);
+        restaurant.setRestaurantMenu(restaurantMenu);
+
+        restaurantRepository.save(restaurant);
+        userService.addRestaurantToUser(userDetails, restaurant);
+
         return restaurantMapper.toDTO(restaurant);
     }
 
     public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) {
-        return getRestaurantDTOById(restaurantId).getMenuRestaurant();
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant with id: " + restaurantId + " not found"));
+        return restaurantMenuMapper.toDTO(restaurant.getRestaurantMenu());
     }
 
     public List<MenuItemDTO> getRestaurantMenuItem(Long restaurantId) {
