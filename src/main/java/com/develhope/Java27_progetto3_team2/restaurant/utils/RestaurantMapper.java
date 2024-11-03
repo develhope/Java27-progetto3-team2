@@ -10,23 +10,13 @@ public class RestaurantMapper {
     public RestaurantDTO toDTO (Restaurant restaurant){
         RestaurantDTO restaurantDTO = new RestaurantDTO();
         restaurantDTO.setNameRestaurant(restaurant.getNameRestaurant());
-        restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setCategory(restaurant.getCategory());
         restaurantDTO.setAddress(restaurant.getAddress());
         restaurantDTO.setOpeningHours(restaurant.getOpeningHours());
+        restaurantDTO.setMenuRestaurant(restaurant.getRestaurantMenu());
         restaurantDTO.setReview(restaurant.getReview());
         return restaurantDTO;
 
     }
 
-    public Restaurant toRestaurant (RestaurantDTO restaurantDTO){
-        Restaurant restaurant = new Restaurant();
-        restaurant.setNameRestaurant(restaurantDTO.getNameRestaurant());
-        restaurant.setCategory(restaurantDTO.getCategory());
-        restaurant.setAddress(restaurantDTO.getAddress());
-        restaurant.setOpeningHours(restaurantDTO.getOpeningHours());
-        restaurant.setReview(restaurantDTO.getReview());
-        return restaurant;
-
-    }
 }
