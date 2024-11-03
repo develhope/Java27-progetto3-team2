@@ -1,10 +1,12 @@
 package com.develhope.Java27_progetto3_team2.user;
 
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,6 +52,16 @@ public class UserService {
     public UserDTO addUser(User user) {
         userRepository.save(user);
         return userMapper.toDTO(user);
+    }
+
+    public boolean addRestaurantToUser(UserDetails userDetails, Restaurant restaurant){
+        User user = (User) userDetails;
+        if(restaurant != null && user.getRole() == Role.ROLE_MANAGER){
+            user.setRestaurant(restaurant);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
 }
