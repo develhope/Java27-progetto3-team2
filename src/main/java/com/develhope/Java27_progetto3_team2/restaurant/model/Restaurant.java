@@ -31,6 +31,7 @@ public class Restaurant {
     @Column(name = "opening_hours")
     private LocalDateTime openingHours;
 
+    @Setter
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
