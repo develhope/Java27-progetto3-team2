@@ -64,4 +64,12 @@ public class UserService {
         return false;
     }
 
+    public UserDTO changeUserRole(UserDetails userDetails,String role){
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User with email: " + userDetails.getUsername() + " nout found!"));
+        user.setRole(Role.valueOf(role.toUpperCase()));
+        userRepository.save(user);
+
+        return userMapper.toDTO(user);
+    }
+
 }
