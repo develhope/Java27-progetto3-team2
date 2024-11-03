@@ -9,16 +9,16 @@ import com.develhope.Java27_progetto3_team2.cart.cartItem.repository.CartItemRep
 import com.develhope.Java27_progetto3_team2.cart.mapper.CartItemMapper;
 import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
+import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuItemService;
 import com.develhope.Java27_progetto3_team2.order.OrderService;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
 import com.develhope.Java27_progetto3_team2.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,10 +32,10 @@ public class CartService {
     private final MenuItemService menuItemService;
     private final OrderService orderService;
 
-    public CartDTO newCartForUser(Long idUser, Long idRestaurant) {
+    public CartDTO newCartForUser(UserDetails userDetails, Long idRestaurant) {
         Cart newCart = new Cart();
         newCart.setCartItemList(new ArrayList<CartItem>());
-        newCart.setUser(userService.getUserById(idUser));
+        newCart.setUser(userService.getUserByEmail(userDetails.getUsername()));
         newCart.setStatus(Status.OPEN);
         newCart.setRestaurant(restaurantService.getRestaurantById(idRestaurant));
         return cartMapper.cartToCartDTO(cartRepository.save(newCart));
@@ -65,7 +65,7 @@ public class CartService {
         Cart cart = cartRepository.getReferenceById(idCart);
         CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cartRepository.getReferenceById(idCart));
         if (cartItem == null){
-            throw new Exception("This item doesn't exists!");
+            throw new NotFoundException("This item doesn't exists!");
         }else {
             int quantity = cartItem.getQuantity();
             cartItem.setQuantity(++quantity);
