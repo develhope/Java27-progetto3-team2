@@ -1,7 +1,7 @@
 package com.develhope.Java27_progetto3_team2.courier;
 
-import com.develhope.Java27_progetto3_team2.exception.CourierAlreadyExistException;
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.CourierAlreadyExistException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.order.Order;
 import com.develhope.Java27_progetto3_team2.order.OrderRepository;
 import com.develhope.Java27_progetto3_team2.user.Role;
@@ -84,10 +84,10 @@ public class CourierService {
     }
 
     public CourierDTO changeApplicationStatus(Long coruerId, String newStatus){
-        Courier courier = courierRepository.findById(coruerId).orElseThrow(() -> new NotFoundException("Coruer with id: " + coruerId + " not found"));
+        Courier courier = courierRepository.findById(coruerId).orElseThrow(() -> new EntityNotFoundException("Coruer with id: " + coruerId + " not found"));
         courier.setStatus(CourierStatus.valueOf(newStatus));
         if(courier.getStatus().equals(CourierStatus.ACCEPTED)){
-            User user = userRepository.findByEmail(courier.getEmail()).orElseThrow(() -> new NotFoundException("Coruer with email: " + courier.getEmail() + " not found"));
+            User user = userRepository.findByEmail(courier.getEmail()).orElseThrow(() -> new EntityNotFoundException("Coruer with email: " + courier.getEmail() + " not found"));
             user.setRole(Role.ROLE_COURIER);
         }
         courierRepository.save(courier);
@@ -97,10 +97,10 @@ public class CourierService {
 
     public CourierDTO addOrderToCourier(UserDetails userDetails, Long orderId){
         if(userDetails.getUsername() == null || userDetails.getUsername().isEmpty()){
-            throw new NotFoundException("Courier not found");
+            throw new EntityNotFoundException("Courier not found");
         }
         Courier courier = courierRepository.findByEmail(userDetails.getUsername());
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("Order with id: " + orderId + " not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order with id: " + orderId + " not found"));
         courier.setOrderList(List.of(order));
         courierRepository.save(courier);
 

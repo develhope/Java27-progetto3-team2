@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.user;
 
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,19 +22,19 @@ public class UserService {
     }
 
     public UserDTO getUserById(Long id){
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!"));
         return userMapper.toDTO(user);
     }
 
     public UserDTO changeUserName(Long id, String name){
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!"));
         user.setName(name);
         userRepository.save(user);
         return userMapper.toDTO(user);
     }
 
     public UserDTO changerUserSurname(Long id, String surname) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!"));
         user.setSurname(surname);
         userRepository.save(user);
         return userMapper.toDTO(user);
@@ -46,7 +46,7 @@ public class UserService {
     }
 
     public UserDTO changeUserRole(UserDetails userDetails,String role){
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User with email: " + userDetails.getUsername() + " nout found!"));
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new EntityNotFoundException("User with email: " + userDetails.getUsername() + " nout found!"));
         user.setRole(Role.valueOf(role.toUpperCase()));
         userRepository.save(user);
 

@@ -1,8 +1,8 @@
 package com.develhope.Java27_progetto3_team2.order;
 
 
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
-import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
@@ -38,9 +38,9 @@ public class OrderService {
         }
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new NotFoundException("Restaurant with id " + restaurantId + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant with id " + restaurantId + " not found"));
 
         Order order = orderMapper.mapperOrderDTOToOrder(orderDTO);
         order.setUser(user);
@@ -48,7 +48,7 @@ public class OrderService {
 
         List<MenuItem> menuItems = orderDTO.getItems().stream()
                 .map(menuItemDTO -> menuItemRepository.findById(menuItemDTO.getId())
-                        .orElseThrow(() -> new NotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
+                        .orElseThrow(() -> new EntityNotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                 .collect(Collectors.toList());
 
         if (menuItems.isEmpty()) { // Controllo che l'ordine abbia almeno un item
@@ -66,7 +66,7 @@ public class OrderService {
 
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) {
         Order existingOrder = orderRepository.findById(idOrder)
-                .orElseThrow(() -> new NotFoundException("Order with id " + idOrder + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order with id " + idOrder + " not found"));
 
         if (existingOrder.getStatus() == OrderStatus.COMPLETED) {
             throw new InvalidRequestException("Cannot modify a completed order.");
@@ -80,7 +80,7 @@ public class OrderService {
         if (orderDTO.getItems() != null && !orderDTO.getItems().isEmpty()) {
             List<MenuItem> menuItems = orderDTO.getItems().stream()
                     .map(menuItemDTO -> menuItemRepository.findById(menuItemDTO.getId())
-                            .orElseThrow(() -> new NotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
+                            .orElseThrow(() -> new EntityNotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                     .collect(Collectors.toList());
             existingOrder.setItems(menuItems);
             existingOrder.setTotalPrice(calculateTotalPrice(menuItems));
@@ -92,11 +92,11 @@ public class OrderService {
 
     public boolean deleteOrder(Long idOrder) {
         if (!orderRepository.existsById(idOrder)) {
-            throw new NotFoundException("Order with id " + idOrder + " not found");
+            throw new EntityNotFoundException("Order with id " + idOrder + " not found");
         }
 
         Order existingOrder = orderRepository.findById(idOrder)
-                .orElseThrow(() -> new NotFoundException("Order with id " + idOrder + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order with id " + idOrder + " not found"));
 
         if (existingOrder.getStatus() == OrderStatus.COMPLETED) {
             throw new InvalidRequestException("Cannot delete a completed order.");

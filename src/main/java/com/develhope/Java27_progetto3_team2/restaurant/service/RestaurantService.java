@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.restaurant.service;
 
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
@@ -37,7 +37,7 @@ public class RestaurantService {
     public RestaurantDTO getRestaurantById(Long id) {
         Restaurant restaurant = restaurantRepository
                 .findById(id)
-                .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant with id: " + id + " not found!"));
         return restaurantMapper.toDTO(restaurant);
     }
 
