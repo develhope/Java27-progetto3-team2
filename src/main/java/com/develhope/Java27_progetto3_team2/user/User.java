@@ -32,6 +32,8 @@ public class User implements UserDetails {
     @Setter
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Setter
+    private String phoneNumber;
 
     @Setter
     @OneToOne
