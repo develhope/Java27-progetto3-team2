@@ -1,7 +1,6 @@
 package com.develhope.Java27_progetto3_team2.cart.cart.model;
 
 import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
-import com.develhope.Java27_progetto3_team2.order.Order;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
@@ -29,10 +28,6 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
