@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.order;
 
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.user.User;
@@ -73,6 +74,11 @@ public class Order {
 
     @Setter
     private List<MenuItem> items;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
 
 }

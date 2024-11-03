@@ -1,10 +1,10 @@
 package com.develhope.Java27_progetto3_team2.menu.model;
 
+import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.order.Order;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 import java.util.List;
 
@@ -40,12 +40,16 @@ public class MenuItem {
     @Setter
     @Column(name = "lactose_free_item")
     private boolean lactoseFreeItem;
+    @Setter
     @ManyToOne
     @JoinColumn(name = "restaurant_menu", nullable = false)
+    @JsonBackReference
     private RestaurantMenu restaurantMenu;
 
     @ManyToMany(mappedBy = "items")
     private List<Order> orders;
 
+    @OneToMany(mappedBy = "menuItem")
+    private List<CartItem> cartItem;
 }
 

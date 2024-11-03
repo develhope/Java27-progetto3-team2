@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class RestaurantController {
 
     @GetMapping("/admin/restaurat/{restaurantId}")
     public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable("restaurantId") Long id){
-        RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
+        RestaurantDTO restaurantDTO = restaurantService.getRestaurantDTOById(id);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
 
@@ -39,8 +41,8 @@ public class RestaurantController {
     }
 
     @PostMapping("/manager/add")
-    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant){
-        RestaurantDTO restaurantDTO = restaurantService.addRestaurant(restaurant);
+    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant, @AuthenticationPrincipal UserDetails userDetails){
+        RestaurantDTO restaurantDTO = restaurantService.addRestaurant(restaurant,userDetails);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
     }
 

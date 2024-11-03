@@ -1,8 +1,11 @@
 package com.develhope.Java27_progetto3_team2.order;
 
 
+
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
+import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
@@ -30,6 +33,13 @@ public class OrderService {
     // Metodo per calcolare il prezzo totale degli items
     private double calculateTotalPrice(List<MenuItem> menuItems) {
         return menuItems.stream().mapToDouble(MenuItem::getItemPrice).sum();
+    }
+    private double calculateTotalPriceCartItem(List<CartItem> cartItems) {
+        double totalPrice = 0;
+        for(CartItem cartItem : cartItems){
+        totalPrice += cartItem.getMenuItem().getItemPrice() * cartItem.getQuantity();
+    }
+        return totalPrice;
     }
 
     public OrderDTO addNewOrder(Long userId, Long restaurantId, OrderDTO orderDTO) {
@@ -62,6 +72,18 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
         return orderMapper.mapperOrderToOrderDTO(savedOrder);
 
+    }
+
+    public OrderDTO addNewOrdeFromCart(Cart cart, String address, String pay){
+        if (cart.getUser().getId() <= 0 || cart.getRestaurant().getId() <= 0) {
+            throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
+        }
+
+        Order order = new Order(1L, OrderStatus.PENDING,address,pay,LocalDateTime.now(),calculateTotalPriceCartItem(cart.getCartItemList()),null,cart.getUser(),cart.getRestaurant(),null,cart);
+
+
+        Order savedOrder = orderRepository.save(order);
+        return orderMapper.mapperOrderToOrderDTO(savedOrder);
     }
 
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) {
@@ -131,5 +153,9 @@ public class OrderService {
         }
         orderList.forEach(a->orderIdList.add(a.getId()));
         return orderIdList;
+    }
+
+    public Order getOrderById(Long orderId) {
+        return orderRepository.getReferenceById(orderId);
     }
 }
