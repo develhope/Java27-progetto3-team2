@@ -23,4 +23,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGenericException(Exception ex, WebRequest request) {
         return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(CourierAlreadyExistException.class)
+    public ResponseEntity<String> handleCourierAlreadyExistException(CourierAlreadyExistException ex, WebRequest request){
+        return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }

@@ -34,7 +34,7 @@ public class User implements UserDetails {
     private Role role;
     @Setter
     private String phoneNumber;
-    @Setter
+
     @OneToOne
     private Restaurant restaurant;
 
