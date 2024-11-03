@@ -2,7 +2,9 @@ package com.develhope.Java27_progetto3_team2.restaurant.service;
 
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
+import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
+import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuService;
@@ -10,10 +12,13 @@ import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.utils.RestaurantMapper;
+import com.develhope.Java27_progetto3_team2.user.User;
+import com.develhope.Java27_progetto3_team2.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +32,8 @@ public class RestaurantService {
     private final RestaurantMapper restaurantMapper;
     private final MenuService menuService;
     private final MenuItemMapper menuItemMapper;
+    private final UserService userService;
+    private final RestaurantMenuMapper restaurantMenuMapper;
 
     public Page<RestaurantDTO> getAllRestaurants(int page, int quantity){
         Pageable pageable = PageRequest.of(page,quantity);
@@ -34,11 +41,17 @@ public class RestaurantService {
         return restaurantsList.map(restaurantMapper::toDTO);
     }
 
-    public RestaurantDTO getRestaurantById(Long id) {
+    public RestaurantDTO getRestaurantDTOById(Long id) {
         Restaurant restaurant = restaurantRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
         return restaurantMapper.toDTO(restaurant);
+    }
+
+    public Restaurant getRestaurantById(Long id) {
+        return restaurantRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
     }
 
     public List<RestaurantDTO> getRestaurantByCategory(String category){
@@ -48,20 +61,26 @@ public class RestaurantService {
                 .map(restaurantMapper::toDTO).toList();
     }
 
-    public RestaurantDTO addRestaurant(Restaurant restaurant){
-        RestaurantDTO restaurantDTO = restaurantMapper.toDTO(restaurant);
-        Restaurant finalRestaurant = restaurantMapper.toRestaurant(restaurantDTO);
-        restaurantRepository.save(finalRestaurant);
-        menuService.saveMenuToRestaurant(finalRestaurant);
-        return restaurantMapper.toDTO(finalRestaurant);
+    public RestaurantDTO addRestaurant(Restaurant restaurant, UserDetails userDetails){
+        restaurant.setUser((User) userDetails);
+        restaurantRepository.save(restaurant);
+
+        RestaurantMenu restaurantMenu = menuService.saveMenuToRestaurant(restaurant);
+        restaurant.setRestaurantMenu(restaurantMenu);
+
+        restaurantRepository.save(restaurant);
+        userService.addRestaurantToUser(userDetails, restaurant);
+
+        return restaurantMapper.toDTO(restaurant);
     }
 
     public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) {
-        return getRestaurantById(restaurantId).getMenuRestaurant();
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant with id: " + restaurantId + " not found"));
+        return restaurantMenuMapper.toDTO(restaurant.getRestaurantMenu());
     }
 
     public List<MenuItemDTO> getRestaurantMenuItem(Long restaurantId) {
-        List<MenuItem> menuItemList = getRestaurantById(restaurantId).getMenuRestaurant().getMenuItemsList();
+        List<MenuItem> menuItemList = getRestaurantDTOById(restaurantId).getMenuRestaurant().getMenuItemsList();
         List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
         menuItemList.forEach(a -> menuItemDTOList.add(menuItemMapper.menuItemToMenuItemDTO(a)));
         return menuItemDTOList;

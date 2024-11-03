@@ -2,15 +2,15 @@ spring:
   application:
     name: esercizio26092024
     secret:
-      key:
+      key: 7QgdbXQ1Gs3aaMOeQEj7NDuUN7i7lfVAtLcp09Khb32wnQ9LH0deOPUo0Z4VtpgK
     expiration: 1800000
   jpa:
     hibernate:
       dialect: jakarta.persistence.jdbc.url
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/project3
     username: root
-    password: rootpassword
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -1,6 +1,7 @@
 package com.develhope.Java27_progetto3_team2.user;
 
 import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +22,17 @@ public class UserService {
         return userDTOPage.map(userMapper::toDTO);
     }
 
-    public UserDTO getUserById(Long id){
+    public UserDTO getUserDTOById(Long id){
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
         return userMapper.toDTO(user);
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+    }
+
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User with email: " + email + " not found!"));
     }
 
     public UserDTO changeUserName(Long id, String name){
@@ -43,6 +52,16 @@ public class UserService {
     public UserDTO addUser(User user) {
         userRepository.save(user);
         return userMapper.toDTO(user);
+    }
+
+    public boolean addRestaurantToUser(UserDetails userDetails, Restaurant restaurant){
+        User user = (User) userDetails;
+        if(restaurant != null && user.getRole() == Role.ROLE_MANAGER){
+            user.setRestaurant(restaurant);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     public UserDTO changeUserRole(UserDetails userDetails,String role){

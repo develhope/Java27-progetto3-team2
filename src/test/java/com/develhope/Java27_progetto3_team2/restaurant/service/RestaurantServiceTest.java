@@ -53,7 +53,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void testGetRestaurantById() throws Exception {
+    void testGetRestaurantDTOById() throws Exception {
         Long id = 1L;
         Restaurant restaurant = new Restaurant();
         RestaurantDTO restaurantDTO = new RestaurantDTO();
@@ -61,19 +61,19 @@ class RestaurantServiceTest {
         when(restaurantRepository.findById(id)).thenReturn(Optional.of(restaurant));
         when(restaurantMapper.toDTO(restaurant)).thenReturn(restaurantDTO);
 
-        RestaurantDTO result = restaurantService.getRestaurantById(id);
+        RestaurantDTO result = restaurantService.getRestaurantDTOById(id);
 
         assertNotNull(result);
     }
 
     @Test
-    void testGetRestaurantByIdNotFound() {
+    void testGetRestaurantDTOByIdNotFound() {
         Long id = 1L;
 
         when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(Exception.class, () -> {
-            restaurantService.getRestaurantById(id);
+            restaurantService.getRestaurantDTOById(id);
         });
 
         assertEquals("Restaurant with id: " + id + " not found!", exception.getMessage());
