@@ -10,10 +10,13 @@ import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.utils.RestaurantMapper;
+import com.develhope.Java27_progetto3_team2.user.User;
+import com.develhope.Java27_progetto3_team2.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class RestaurantService {
     private final RestaurantMapper restaurantMapper;
     private final MenuService menuService;
     private final MenuItemMapper menuItemMapper;
+    private final UserService userService;
 
     public Page<RestaurantDTO> getAllRestaurants(int page, int quantity){
         Pageable pageable = PageRequest.of(page,quantity);
@@ -55,12 +59,12 @@ public class RestaurantService {
                 .map(restaurantMapper::toDTO).toList();
     }
 
-    public RestaurantDTO addRestaurant(Restaurant restaurant){
-        RestaurantDTO restaurantDTO = restaurantMapper.toDTO(restaurant);
-        Restaurant finalRestaurant = restaurantMapper.toRestaurant(restaurantDTO);
-        restaurantRepository.save(finalRestaurant);
-        menuService.saveMenuToRestaurant(finalRestaurant);
-        return restaurantMapper.toDTO(finalRestaurant);
+    public RestaurantDTO addRestaurant(Restaurant restaurant, UserDetails userDetails){
+        restaurant.setUser((User) userDetails);
+        restaurantRepository.save(restaurant);
+        menuService.saveMenuToRestaurant(restaurant);
+        userService.addRestaurantToUser(userDetails,restaurant);
+        return restaurantMapper.toDTO(restaurant);
     }
 
     public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) {
