@@ -75,7 +75,9 @@ public class Order {
     @Setter
     private List<MenuItem> items;
 
-    @OneToOne(mappedBy = "order")
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
 
