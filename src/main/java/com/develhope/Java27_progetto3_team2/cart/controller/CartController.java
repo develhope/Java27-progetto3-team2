@@ -21,10 +21,10 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newCartDTO);
     }
 
-    @PostMapping("/user/{idCart}/{idMenuItem}")
-    public ResponseEntity<?> newCartItem(@PathVariable("idCart") Long idCart, @PathVariable("idMenuItem") Long idMenuItem) {
+    @PatchMapping("/user/cart_item/{idMenuItem}")
+    public ResponseEntity<?> addItemToCart(@AuthenticationPrincipal UserDetails userDetails, @PathVariable("idMenuItem") Long idMenuItem) {
 
-        CartDTO insertedCartItem = cartService.newCartItemOnCart(idCart, idMenuItem);
+        CartDTO insertedCartItem = cartService.addItemToCart(userDetails, idMenuItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(insertedCartItem);
 
     }
@@ -48,8 +48,12 @@ public class CartController {
 
         CartDTO closedCartDTO = cartService.closedCart(idCart, address, pay);
         return ResponseEntity.status(HttpStatus.OK).body(closedCartDTO);
+    }
 
-
+    @GetMapping("/user/user_cart")
+    public ResponseEntity<CartDTO> getUserCart(@AuthenticationPrincipal UserDetails userDetails){
+        CartDTO cartDTO = cartService.getUserCart(userDetails);
+        return  ResponseEntity.ok(cartDTO);
     }
 
 }
