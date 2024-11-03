@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CourierRepository extends JpaRepository<Courier, Long> {
-    Courier findByEmail(String email);
     boolean existsByEmail(String email);
+    Courier findByEmail(String email);
 }
