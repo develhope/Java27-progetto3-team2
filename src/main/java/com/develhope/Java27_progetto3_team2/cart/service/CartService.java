@@ -13,6 +13,7 @@ import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuItemService;
 import com.develhope.Java27_progetto3_team2.order.OrderService;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
+import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,9 +42,10 @@ public class CartService {
         return cartMapper.cartToCartDTO(cartRepository.save(newCart));
     }
 
-    public CartDTO newCartItemOnCart(Long idCart, Long idMenuItem) {
-        Cart cart = cartRepository.getReferenceById(idCart);
-        CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cartRepository.getReferenceById(idCart));
+    public CartDTO addItemToCart(UserDetails userDetails, Long idMenuItem) {
+        User user = (User) userDetails;
+        Cart cart = cartRepository.findByUser_Id(user.getId());
+        CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cart);
         if (cartItem == null){
             cartItem = new CartItem();
             cartItem.setCart(cart);
@@ -81,6 +83,12 @@ public class CartService {
         }
         cart.setStatus(Status.CLOSED);
         orderService.addNewOrdeFromCart(cartRepository.save(cart),address,pay);
+        return cartMapper.cartToCartDTO(cart);
+    }
+
+    public CartDTO getUserCart(UserDetails userDetails){
+        User user = (User) userDetails;
+        Cart cart = cartRepository.findByUser_Id(user.getId());
         return cartMapper.cartToCartDTO(cart);
     }
 }
