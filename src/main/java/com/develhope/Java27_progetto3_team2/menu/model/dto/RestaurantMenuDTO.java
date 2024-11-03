@@ -19,7 +19,4 @@ public class RestaurantMenuDTO {
     @Setter
     private RestaurantDTO restaurantId;
 
-    public RestaurantMenuDTO(RestaurantDTO restaurantId) {
-        this.restaurantId = restaurantId;
-    }
 }
