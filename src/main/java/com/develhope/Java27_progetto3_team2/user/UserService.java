@@ -26,8 +26,11 @@ public class UserService {
     }
 
     public User getUserById(Long id){
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
-        return user;
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+    }
+
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User with email: " + email + " not found!"));
     }
 
     public UserDTO changeUserName(Long id, String name){
