@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.menu.mapper;
 
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
@@ -41,7 +41,7 @@ public class MenuItemMapper {
                 .glutenFreeItem(restaurantMenuItemDTO.isGlutenFreeItem())
                 .lactoseFreeItem(restaurantMenuItemDTO.isLactoseFreeItem())
                 .restaurantMenu(restaurantMenuRepository.findRestaurantMenuById(restaurantMenuItemDTO.getMenuId())
-                        .orElseThrow(() -> new NotFoundException("No menu found")))
+                        .orElseThrow(() -> new EntityNotFoundException("No menu found")))
                 .build();
     }
 }

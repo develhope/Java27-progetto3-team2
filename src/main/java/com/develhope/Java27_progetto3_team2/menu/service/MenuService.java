@@ -1,6 +1,8 @@
 package com.develhope.Java27_progetto3_team2.menu.service;
 
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+
+import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
@@ -27,12 +29,14 @@ public class MenuService {
     private final RestaurantMenuMapper restaurantMenuMapper;
     private final MenuItemRepository menuItemRepository;
 
+
     public RestaurantMenuDTO addMenuToRestaurant(UserDetails userDetails) {
         Restaurant restaurant = restaurantRepository.findByUser_Email(userDetails.getUsername());
         RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
         restaurantMenuRepository.save(restaurantMenu);
         return restaurantMenuMapper.toDTO(restaurantMenu);
     }
+
 
     @Transactional
     public List<MenuItemDTO> addItemToMenu(UserDetails userDetails, MenuItem menuItem) {
