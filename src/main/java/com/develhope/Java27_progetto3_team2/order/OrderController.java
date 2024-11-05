@@ -1,9 +1,16 @@
 package com.develhope.Java27_progetto3_team2.order;
 
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
+import com.develhope.Java27_progetto3_team2.cart.cart.model.CartDTO;
+import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
+import com.develhope.Java27_progetto3_team2.cart.service.CartService;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +21,10 @@ import java.util.List;
 public class OrderController {
     @Autowired
     OrderService orderService;
+    @Autowired
+    CartService cartService;
+    @Autowired
+    CartMapper cartMapper;
 
 
     @PostMapping("/{userId}/{restaurantId}")
@@ -53,4 +64,21 @@ public class OrderController {
         log.debug("Fetched all orders");
         return ResponseEntity.status(HttpStatus.OK).body(orderDTOList);
     }
+
+    @PostMapping("/user/cart-to-order")
+    public ResponseEntity<OrderDTO> createOrderFromUserCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String address, @RequestParam String pay) {
+        // Recupero il cart dell'utente autenticato, tramite metodo getUserCart
+        CartDTO cartDTO = cartService.getUserCart(userDetails);
+        if (cartDTO == null) {
+            throw new EntityNotFoundException("No open cart found for the user.");
+        }
+
+        Cart cart = cartMapper.cartDTOToCart(cartDTO);
+        // Creo ordine da carrello
+        OrderDTO orderDTO = orderService.addNewOrderFromCart(cart, address, pay);
+
+        log.debug("Order created from user's cart: {}", orderDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderDTO);
+    }
+
 }

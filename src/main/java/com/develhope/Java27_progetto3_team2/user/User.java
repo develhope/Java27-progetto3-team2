@@ -36,6 +36,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @OneToOne
+    @Setter
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "user")

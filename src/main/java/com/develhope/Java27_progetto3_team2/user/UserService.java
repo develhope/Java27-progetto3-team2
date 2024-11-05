@@ -23,17 +23,17 @@ public class UserService {
     }
 
 
-    public UserDTO getUserById(Long id){
+    public UserDTO getUserDTOById(Long id){
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!"));
         return userMapper.toDTO(user);
     }
 
     public User getUserById(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id: " + id + " not found!"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!"));
     }
 
     public User getUserByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User with email: " + email + " not found!"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User with email: " + email + " not found!"));
     }
 
     public UserDTO changeUserName(Long id, String name){
