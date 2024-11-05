@@ -8,8 +8,8 @@ import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.cart.cartItem.repository.CartItemRepository;
 import com.develhope.Java27_progetto3_team2.cart.mapper.CartItemMapper;
 import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
-import com.develhope.Java27_progetto3_team2.exception.InvalidRequestException;
-import com.develhope.Java27_progetto3_team2.exception.NotFoundException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuItemService;
 import com.develhope.Java27_progetto3_team2.order.OrderService;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
@@ -67,7 +67,7 @@ public class CartService {
         Cart cart = cartRepository.getReferenceById(idCart);
         CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cartRepository.getReferenceById(idCart));
         if (cartItem == null){
-            throw new NotFoundException("This item doesn't exists!");
+            throw new EntityNotFoundException("This item doesn't exists!");
         }else {
             int quantity = cartItem.getQuantity();
             cartItem.setQuantity(++quantity);
@@ -82,7 +82,7 @@ public class CartService {
             throw new InvalidRequestException("Order must contain at least one menu item.");
         }
         cart.setStatus(Status.CLOSED);
-        orderService.addNewOrdeFromCart(cartRepository.save(cart),address,pay);
+        orderService.addNewOrderFromCart(cartRepository.save(cart),address,pay);
         return cartMapper.cartToCartDTO(cart);
     }
 

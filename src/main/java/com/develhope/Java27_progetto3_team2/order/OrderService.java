@@ -2,6 +2,7 @@ package com.develhope.Java27_progetto3_team2.order;
 
 
 
+import com.develhope.Java27_progetto3_team2.cart.cart.repository.CartRepository;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
@@ -13,6 +14,7 @@ import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepo
 import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ public class OrderService {
     private final MenuItemRepository menuItemRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
+    private final CartRepository cartRepository;
 
     // Metodo per calcolare il prezzo totale degli items
     private double calculateTotalPrice(List<MenuItem> menuItems) {
@@ -74,15 +77,24 @@ public class OrderService {
 
     }
 
-    public OrderDTO addNewOrdeFromCart(Cart cart, String address, String pay){
+    @Transactional
+    public OrderDTO addNewOrderFromCart(Cart cart, String address, String pay) {
         if (cart.getUser().getId() <= 0 || cart.getRestaurant().getId() <= 0) {
             throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
         }
 
-        Order order = new Order(1L, OrderStatus.PENDING,address,pay,LocalDateTime.now(),calculateTotalPriceCartItem(cart.getCartItemList()),null,cart.getUser(),cart.getRestaurant(),null,cart);
+        // Creazione di un nuovo ordine
+        Order order = new Order(1L, OrderStatus.PENDING, address, pay, LocalDateTime.now(),
+                calculateTotalPriceCartItem(cart.getCartItemList()), null,
+                cart.getUser(), cart.getRestaurant(), null, cart);
 
-
+        // Salvataggio dell'ordine
         Order savedOrder = orderRepository.save(order);
+
+        // Eliminazione del carrello
+        cartRepository.delete(cart);
+
+        // Ritorno dell'ordine come DTO
         return orderMapper.mapperOrderToOrderDTO(savedOrder);
     }
 
