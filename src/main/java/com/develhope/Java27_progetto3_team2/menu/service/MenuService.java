@@ -41,7 +41,7 @@ public class MenuService {
     @Transactional
     public List<MenuItemDTO> addItemToMenu(UserDetails userDetails, MenuItem menuItem) {
         Restaurant restaurant = restaurantRepository.findByUser_Email(userDetails.getUsername());
-        RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(restaurant.getId()).orElseThrow(() -> new NotFoundException("No menu found"));
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(restaurant.getId()).orElseThrow(() -> new EntityNotFoundException("No menu found"));
         menuItem.setRestaurantMenu(restaurantMenu);
         menuItemRepository.save(menuItem);
         List<MenuItem> menuItemList = restaurantMenu.getMenuItemsList();

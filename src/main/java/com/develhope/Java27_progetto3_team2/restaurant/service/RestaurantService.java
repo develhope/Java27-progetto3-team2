@@ -51,7 +51,7 @@ public class RestaurantService {
     public Restaurant getRestaurantById(Long id) {
         return restaurantRepository
                 .findById(id)
-                .orElseThrow(() -> new NotFoundException("Restaurant with id: " + id + " not found!"));
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant with id: " + id + " not found!"));
     }
 
     public List<RestaurantDTO> getRestaurantByCategory(String category){
@@ -75,7 +75,7 @@ public class RestaurantService {
     }
 
     public RestaurantMenuDTO getRestaurantMenu(Long restaurantId) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new NotFoundException("Restaurant with id: " + restaurantId + " not found"));
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new EntityNotFoundException("Restaurant with id: " + restaurantId + " not found"));
         return restaurantMenuMapper.toDTO(restaurant.getRestaurantMenu());
     }
 
