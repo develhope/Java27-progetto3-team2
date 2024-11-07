@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping()
 @Slf4j
 public class OrderController {
     @Autowired
@@ -35,13 +35,13 @@ public class OrderController {
     }
 
 
-    @PutMapping("/{idOrder}")
+    @PutMapping("/user/{idOrder}")
     public ResponseEntity<OrderDTO> updateOrder(@RequestBody OrderDTO orderDTO, @PathVariable("idOrder") Long idOrder) {
         OrderDTO orderDTOUpdated = orderService.updateOrder(orderDTO, idOrder);
         return ResponseEntity.ok(orderDTOUpdated);
     }
 
-    @DeleteMapping("/{idOrder}")
+    @DeleteMapping("/user/delete/{idOrder}")
     public ResponseEntity<String> deleteOrder(@PathVariable("idOrder") Long idOrder) {
         boolean isDeleted = orderService.deleteOrder(idOrder);
         if (isDeleted) {
@@ -58,7 +58,7 @@ public class OrderController {
     }
 
 
-    @GetMapping("/all")
+    @GetMapping("/courier/all")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<OrderDTO> orderDTOList = orderService.getAllOrder();
         log.debug("Fetched all orders");

@@ -19,7 +19,7 @@ public class CourierController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courierDTO);
     }
 
-    @PatchMapping("/admin/application/{courierId}")
+    @PatchMapping("/user/application/{courierId}")
     public ResponseEntity<CourierDTO> changeApplicationStatus(@PathVariable("courierId") Long courierId, @RequestParam String newStatus){
         CourierDTO courierDTO = courierService.changeApplicationStatus(courierId,newStatus);
         return ResponseEntity.status(HttpStatus.OK).body(courierDTO);

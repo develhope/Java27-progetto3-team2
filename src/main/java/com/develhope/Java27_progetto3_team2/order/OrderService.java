@@ -1,19 +1,17 @@
 package com.develhope.Java27_progetto3_team2.order;
 
 
-
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.cart.cart.repository.CartRepository;
+import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
-import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
-import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,16 +57,18 @@ public class OrderService {
         order.setUser(user);
         order.setRestaurant(restaurant);
 
-        List<MenuItem> menuItems = orderDTO.getItems().stream()
+      List<MenuItem> menuItems = orderDTO.getItems().stream()
                 .map(menuItemDTO -> menuItemRepository.findById(menuItemDTO.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                 .collect(Collectors.toList());
+
+
 
         if (menuItems.isEmpty()) { // Controllo che l'ordine abbia almeno un item
             throw new InvalidRequestException("Order must contain at least one menu item.");
         }
 
-        order.setItems(menuItems);
+        //order.setItems(menuItems);
         order.setTotalPrice(calculateTotalPrice(menuItems));
         order.setOrderDate(LocalDateTime.now());
 
@@ -76,6 +76,7 @@ public class OrderService {
         return orderMapper.mapperOrderToOrderDTO(savedOrder);
 
     }
+
 
     @Transactional
     public OrderDTO addNewOrderFromCart(Cart cart, String address, String pay) {
@@ -85,14 +86,14 @@ public class OrderService {
 
         // Creazione di un nuovo ordine
         Order order = new Order(1L, OrderStatus.PENDING, address, pay, LocalDateTime.now(),
-                calculateTotalPriceCartItem(cart.getCartItemList()), null,
-                cart.getUser(), cart.getRestaurant(), null, cart);
+                calculateTotalPriceCartItem(cart.getCartItemList()), 1L,
+                cart.getUser(), cart.getRestaurant(),cart.getCartItemList().stream().map(CartItem::getMenuItem).toList(), cart);
 
         // Salvataggio dell'ordine
         Order savedOrder = orderRepository.save(order);
 
         // Eliminazione del carrello
-        cartRepository.delete(cart);
+        //cartRepository.delete(cart);
 
         // Ritorno dell'ordine come DTO
         return orderMapper.mapperOrderToOrderDTO(savedOrder);
@@ -116,13 +117,17 @@ public class OrderService {
                     .map(menuItemDTO -> menuItemRepository.findById(menuItemDTO.getId())
                             .orElseThrow(() -> new EntityNotFoundException("Menu item with id " + menuItemDTO.getId() + " not found")))
                     .collect(Collectors.toList());
-            existingOrder.setItems(menuItems);
+            //existingOrder.setItems(menuItems);
             existingOrder.setTotalPrice(calculateTotalPrice(menuItems));
         }
 
         Order updatedOrder = orderRepository.save(existingOrder);
         return orderMapper.mapperOrderToOrderDTO(updatedOrder);
     }
+
+
+
+
 
     public boolean deleteOrder(Long idOrder) {
         if (!orderRepository.existsById(idOrder)) {
