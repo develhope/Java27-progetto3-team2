@@ -8,6 +8,7 @@ import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
 import com.develhope.Java27_progetto3_team2.menu.model.dto.RestaurantMenuDTO;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuService;
+import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
@@ -42,9 +43,7 @@ public class RestaurantService {
     }
 
     public RestaurantDTO getRestaurantDTOById(Long id) {
-        Restaurant restaurant = restaurantRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant with id: " + id + " not found!"));
+        Restaurant restaurant = getRestaurantById(id);
         return restaurantMapper.toDTO(restaurant);
     }
 
@@ -84,5 +83,26 @@ public class RestaurantService {
         List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
         menuItemList.forEach(a -> menuItemDTOList.add(menuItemMapper.menuItemToMenuItemDTO(a)));
         return menuItemDTOList;
+    }
+
+
+    /***
+     *Change restaurant details by inserting the restaurant id,
+     * the field you want to change,
+     * the value you want to apply to that field
+     * @param restaurantId id of the restaurant you want to modify
+     * @param field fields: (nameRestaurant, category, address )
+     * @param value category: ( PIZZERIA,JAPANESE,INDIAN,CHINESE,FAST_FOOD,BUFFET)
+     * @return returns the RestaurantDTO
+     */
+    public RestaurantDTO changeRestaurantDetails(Long restaurantId, String field, String value){
+        Restaurant restaurant = getRestaurantById(restaurantId);
+        switch (field){
+            case "nameRestaurant" -> restaurant.setNameRestaurant(value);
+            case "category" -> restaurant.setCategory(Category.valueOf(value));
+            case "address" -> restaurant.setAddress(value);
+        }
+        restaurantRepository.save(restaurant);
+        return restaurantMapper.toDTO(restaurant);
     }
 }

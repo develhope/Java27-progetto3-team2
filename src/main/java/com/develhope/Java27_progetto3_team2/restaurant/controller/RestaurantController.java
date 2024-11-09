@@ -58,4 +58,12 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantMenuDTO);
     }
 
+    @PatchMapping("/manager/restaurant/details/{restaurantId}")
+    public ResponseEntity<RestaurantDTO> changeRestaurantDetails(@PathVariable("restaurantId") Long idRestaurant,
+                                                                 @RequestParam String field,
+                                                                 @RequestParam String value){
+        RestaurantDTO restaurantDTO = restaurantService.changeRestaurantDetails(idRestaurant,field,value);
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantDTO);
+    }
+
 }
