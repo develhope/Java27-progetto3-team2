@@ -175,4 +175,17 @@ public class OrderService {
     public Order getOrderById(Long orderId) {
         return orderRepository.getReferenceById(orderId);
     }
+
+    /***
+     * Change the order status based on order id and status
+     * @param orderId The id of the order you want to modify
+     * @param status Status: (PENDING,IN_PREPARATION,DELIVERING,COMPLETED)
+     * @return returns the OrderDTO
+     */
+    public OrderDTO changeOrderStatus(Long orderId, String status){
+        Order order = getOrderById(orderId);
+        order.setStatus(OrderStatus.valueOf(status));
+        orderRepository.save(order);
+        return orderMapper.mapperOrderToOrderDTO(order);
+    }
 }

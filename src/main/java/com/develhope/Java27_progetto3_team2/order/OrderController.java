@@ -81,4 +81,10 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderDTO);
     }
 
+    @PatchMapping("/admin/order/status/{orderId}")
+    public ResponseEntity<OrderDTO> changeOrderStatus(@PathVariable("orderId") Long orderId,String status){
+        OrderDTO orderDTO = orderService.changeOrderStatus(orderId,status);
+        return ResponseEntity.status(HttpStatus.OK).body(orderDTO);
+    }
+
 }
