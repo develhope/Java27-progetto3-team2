@@ -21,18 +21,22 @@ public class EmailService {
         String subject = "Conferma Ordine";
         String linkPath = "https://drive.google.com/uc?export=view&id=1e8D9jy0WGHrl80lUHNUHDwcIwhlnqGHs";
         String body =
-                "<div style='color: #ffffff; font-family: Arial, sans-serif;'>" +
+                "<html>" +
+                        "<body style='background-color: #ffffff;'>" +
+                        "<div style='color: #ffffff; font-family: Arial, sans-serif;'>" +
                         "<img src='" + linkPath + "' alt='WeEat Logo' style='width: 600px; height: auto;'>" +
-                        "<p>Ciao " + order.getUser().getName() + " " + order.getUser().getSurname() + " hai effettuato un ordine su WeEat!</p>" +
-                        "<h3>Dettagli Ordine:</h3>" +
-                        "<p>Data Ordine: " + order.getOrderDate().format(formatter) + "</p>" +
-                        "<p>Data Arrivo Ordine:" + order.getDeliveryTime().format(formatter) + "</p>" +
-                        "<p>Indirizzo: " + order.getDeliveryAddress() + "</p>" +
-                        "<p>Spedito da: " + order.getRestaurant().getNameRestaurant() + "</p>" +
-                        "<p>Metodo di Pagamento: " + order.getPaymentMethod() + "</p>" +
-                        "<p>Prodotti: " + order.getItems().toString() + "</p>" +
-                        "<p>Prezzo Totale: " + order.getTotalPrice() + "€" + "</p>" +
-                        "</div>";
+                        "<p style='color: #ffb6c1;'>Ciao " + order.getUser().getName() + " " + order.getUser().getSurname() + " hai effettuato un ordine su WeEat!</p>" +
+                        "<h3 style='color: #ffb6c1;'>Dettagli Ordine:</h3>" +
+                        "<p style='color: #ffb6c1;'>Data Ordine: " + order.getOrderDate().format(formatter) + "</p>" +
+                        "<p style='color: #ffb6c1;'>Data Arrivo Ordine:" + order.getDeliveryTime().format(formatter) + "</p>" +
+                        "<p style='color: #ffb6c1;'>Indirizzo: " + order.getDeliveryAddress() + "</p>" +
+                        "<p style='color: #ffb6c1;'>Spedito da: " + order.getRestaurant().getNameRestaurant() + "</p>" +
+                        "<p style='color: #ffb6c1;'>Metodo di Pagamento: " + order.getPaymentMethod() + "</p>" +
+                        "<p style='color: #ffb6c1;'>Prodotti: " + order.getItems().toString() + "</p>" +
+                        "<p style='color: #ffb6c1;'>Prezzo Totale: " + order.getTotalPrice() + "€" + "</p>" +
+                        "</div>" +
+                        "</body>" +
+                        "</html>";
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
