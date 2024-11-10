@@ -49,5 +49,10 @@ public class MenuItem {
 
     @OneToMany(mappedBy = "menuItem")
     private List<CartItem> cartItem;
+
+    @Override
+    public String toString() {
+        return itemName + " - " + itemPrice + "€";
+    }
 }
 
