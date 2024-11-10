@@ -22,6 +22,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class OrderService {
         return totalPrice;
     }
 
-    @Deprecated
+
     public OrderDTO addNewOrder(Long userId, Long restaurantId, OrderDTO orderDTO) {
         if (userId <= 0 || restaurantId <= 0) {
             throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
@@ -97,10 +98,11 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
         UserOrderDTO userOrderDTO = orderMapper.toUserOrderDTO(savedOrder);
+
         userOrderDTO.setCartDTO(cartMapper.cartToCartDTO(cart));
         userOrderDTO.setRestaurantName(cart.getRestaurant().getNameRestaurant());
 
-        return orderMapper.toUserOrderDTO(savedOrder);
+        return userOrderDTO;
     }
 
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) {
@@ -191,6 +193,21 @@ public class OrderService {
         order.setStatus(OrderStatus.valueOf(status));
         orderRepository.save(order);
         return orderMapper.mapperOrderToOrderDTO(order);
+    }
+
+    public UserOrderDTO getUserOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order with id: " + orderId + " not found"));
+        UserOrderDTO userOrderDTO = orderMapper.toUserOrderDTO(order);
+
+        Duration duration = Duration.between(LocalDateTime.now(), order.getDeliveryTime());
+        long minutesRemaining = duration.toMinutes();
+        long secondsRemaining = duration.minusMinutes(minutesRemaining).getSeconds();
+
+        String timeRemaining = String.format("%02d:%02d", minutesRemaining, secondsRemaining);
+
+        userOrderDTO.setArrivingTime(timeRemaining);
+
+        return userOrderDTO;
     }
 
 

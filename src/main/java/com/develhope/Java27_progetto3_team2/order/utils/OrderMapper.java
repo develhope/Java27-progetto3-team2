@@ -1,5 +1,6 @@
 package com.develhope.Java27_progetto3_team2.order.utils;
 
+import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.order.dto.OrderDTO;
 import com.develhope.Java27_progetto3_team2.order.dto.UserOrderDTO;
@@ -16,8 +17,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderMapper {
 
-    private final MenuItemMapper menuItemMapper
-            ;
+    private final MenuItemMapper menuItemMapper;
+    private final CartMapper cartMapper;
 
     public Order mapperOrderDTOToOrder(OrderDTO orderDTO){
         return Order.builder()
@@ -69,6 +70,8 @@ public class OrderMapper {
         userOrderDTO.setPaymentMethod(order.getPaymentMethod());
         userOrderDTO.setOrderDate(order.getOrderDate());
         userOrderDTO.setTotalPrice(order.getTotalPrice());
+        userOrderDTO.setRestaurantName(order.getRestaurant().getNameRestaurant());
+        userOrderDTO.setCartDTO(cartMapper.cartToCartDTO(order.getCart()));
         userOrderDTO.setDeliveryTime(order.getDeliveryTime());
         return userOrderDTO;
 
