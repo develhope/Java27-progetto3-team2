@@ -1,16 +1,27 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: weeatnotificationservice@gmail.com
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   application:
     name: esercizio26092024
     secret:
-      key: 7QgdbXQ1Gs3aaMOeQEj7NDuUN7i7lfVAtLcp09Khb32wnQ9LH0deOPUo0Z4VtpgK
-    expiration: 1800000
+      key:
+    expiration: 18000000000000
   jpa:
     hibernate:
       dialect: jakarta.persistence.jdbc.url
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/project3
     username: root
-    password:
+    password: rootpassword
     driver-class-name: com.mysql.cj.jdbc.Driver
