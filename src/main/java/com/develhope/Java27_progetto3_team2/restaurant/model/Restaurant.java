@@ -1,10 +1,7 @@
 package com.develhope.Java27_progetto3_team2.restaurant.model;
 
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
-import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
-import com.develhope.Java27_progetto3_team2.user.User;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,15 +30,10 @@ public class Restaurant {
     private LocalDateTime openingHours;
 
     @Setter
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
     @Setter
-    @OneToOne
-    @JoinColumn(name = "restaurant")
-    @JsonManagedReference
-    private RestaurantMenu restaurantMenu;
+    private Long restaurantMenuId;
 
     @Setter
     private double review;

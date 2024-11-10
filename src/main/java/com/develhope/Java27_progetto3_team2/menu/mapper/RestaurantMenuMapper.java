@@ -15,7 +15,7 @@ public class RestaurantMenuMapper {
     public RestaurantMenuDTO toDTO (RestaurantMenu restaurantMenu){
         RestaurantMenuDTO restaurantMenuDTO = new RestaurantMenuDTO();
         restaurantMenuDTO.setMenuItemsList(restaurantMenu.getMenuItemsList());
-        restaurantMenuDTO.setRestaurantId(restaurantMapper.toDTO(restaurantMenu.getRestaurantId()));
+        restaurantMenuDTO.setRestaurantId(restaurantMenu.getRestaurantId());
         return restaurantMenuDTO;
     }
 

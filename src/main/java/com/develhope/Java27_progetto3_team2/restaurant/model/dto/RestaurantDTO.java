@@ -1,6 +1,5 @@
 package com.develhope.Java27_progetto3_team2.restaurant.model.dto;
 
-import com.develhope.Java27_progetto3_team2.menu.model.RestaurantMenu;
 import com.develhope.Java27_progetto3_team2.restaurant.enumerator.Category;
 import lombok.*;
 
@@ -16,6 +15,6 @@ public class RestaurantDTO {
     private Category category;
     private String address;
     public LocalDateTime openingHours;
-    private RestaurantMenu menuRestaurant;
+    private Long restaurantMenuId;
     private double review;
 }

@@ -1,7 +1,6 @@
 package com.develhope.Java27_progetto3_team2.user;
 
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
-import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,8 +35,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @Setter
-    @OneToOne
-    private Restaurant restaurant;
+    private Long restaurantId;
 
     @OneToMany(mappedBy = "user")
     private List<Cart> carts;

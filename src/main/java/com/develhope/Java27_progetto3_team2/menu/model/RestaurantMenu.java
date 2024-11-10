@@ -1,7 +1,5 @@
 package com.develhope.Java27_progetto3_team2.menu.model;
 
-import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,17 +17,12 @@ public class RestaurantMenu {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
-   @OneToOne
-   @JoinColumn(name = "restaurant_id")
-   @JsonBackReference
-   private Restaurant restaurantId;
+
+   @Setter
+   private Long restaurantId;
 
    @OneToMany(mappedBy = "restaurantMenu")
    @Setter
-   private List<MenuItem> menuItemsList;
+   private List<MenuItem> menuItemsList = new ArrayList<>();
 
-   public RestaurantMenu(Restaurant restaurantId) {
-      this.restaurantId = restaurantId;
-      this.menuItemsList = new ArrayList<>();
-   }
 }

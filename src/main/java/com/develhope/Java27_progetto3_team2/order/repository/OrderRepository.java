@@ -1,5 +1,6 @@
-package com.develhope.Java27_progetto3_team2.order;
+package com.develhope.Java27_progetto3_team2.order.repository;
 
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

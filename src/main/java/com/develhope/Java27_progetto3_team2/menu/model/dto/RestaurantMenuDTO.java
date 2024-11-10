@@ -1,7 +1,6 @@
 package com.develhope.Java27_progetto3_team2.menu.model.dto;
 
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
-import com.develhope.Java27_progetto3_team2.restaurant.model.dto.RestaurantDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,6 @@ public class RestaurantMenuDTO {
     @Setter
     private List<MenuItem> menuItemsList;
     @Setter
-    private RestaurantDTO restaurantId;
+    private Long restaurantId;
 
 }

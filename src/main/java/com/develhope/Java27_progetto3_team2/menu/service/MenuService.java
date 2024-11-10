@@ -1,7 +1,6 @@
 package com.develhope.Java27_progetto3_team2.menu.service;
 
 
-import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
 import com.develhope.Java27_progetto3_team2.menu.mapper.RestaurantMenuMapper;
@@ -13,6 +12,7 @@ import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
 import com.develhope.Java27_progetto3_team2.menu.repository.RestaurantMenuRepository;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
+import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,8 +31,10 @@ public class MenuService {
 
 
     public RestaurantMenuDTO addMenuToRestaurant(UserDetails userDetails) {
-        Restaurant restaurant = restaurantRepository.findByUser_Email(userDetails.getUsername());
-        RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
+        User user = (User)userDetails;
+        Restaurant restaurant = restaurantRepository.findByUserId(user.getId());
+        RestaurantMenu restaurantMenu = new RestaurantMenu();
+        restaurantMenu.setRestaurantId(restaurant.getId());
         restaurantMenuRepository.save(restaurantMenu);
         return restaurantMenuMapper.toDTO(restaurantMenu);
     }
@@ -40,7 +42,8 @@ public class MenuService {
 
     @Transactional
     public List<MenuItemDTO> addItemToMenu(UserDetails userDetails, MenuItem menuItem) {
-        Restaurant restaurant = restaurantRepository.findByUser_Email(userDetails.getUsername());
+        User user = (User) userDetails;
+        Restaurant restaurant = restaurantRepository.findByUserId(user.getId());
         RestaurantMenu restaurantMenu = restaurantMenuRepository.findRestaurantMenuById(restaurant.getId()).orElseThrow(() -> new EntityNotFoundException("No menu found"));
         menuItem.setRestaurantMenu(restaurantMenu);
         menuItemRepository.save(menuItem);
@@ -54,7 +57,8 @@ public class MenuService {
     //This method is mainly used inside RestaurantService to avoid injecting RestaurantMenu repository
     // inside RestaurantService.
     public RestaurantMenu saveMenuToRestaurant(Restaurant restaurant) {
-        RestaurantMenu restaurantMenu = new RestaurantMenu(restaurant);
+        RestaurantMenu restaurantMenu = new RestaurantMenu();
+        restaurantMenu.setRestaurantId(restaurant.getId());
         return restaurantMenuRepository.save(restaurantMenu);
     }
 

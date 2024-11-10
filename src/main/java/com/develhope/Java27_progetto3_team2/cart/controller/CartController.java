@@ -1,6 +1,8 @@
 package com.develhope.Java27_progetto3_team2.cart.controller;
 
+import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.cart.cart.model.CartDTO;
+import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.cart.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping()
 public class CartController {
     private final CartService cartService;
+    private final CartMapper cartMapper;
 
     @PostMapping("/user/cart")
     public ResponseEntity<?> newCartForUser(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long idRestaurant) {
@@ -52,8 +55,8 @@ public class CartController {
 
     @GetMapping("/user/user_cart")
     public ResponseEntity<CartDTO> getUserCart(@AuthenticationPrincipal UserDetails userDetails){
-        CartDTO cartDTO = cartService.getUserCart(userDetails);
-        return  ResponseEntity.ok(cartDTO);
+        Cart cart = cartService.getUserCart(userDetails);
+        return  ResponseEntity.ok(cartMapper.cartToCartDTO(cart));
     }
 
 }

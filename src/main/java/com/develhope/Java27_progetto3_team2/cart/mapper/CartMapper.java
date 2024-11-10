@@ -3,7 +3,6 @@ package com.develhope.Java27_progetto3_team2.cart.mapper;
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.cart.cart.model.CartDTO;
 import com.develhope.Java27_progetto3_team2.cart.service.CartServiceMapper;
-import com.develhope.Java27_progetto3_team2.order.OrderService;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
 import com.develhope.Java27_progetto3_team2.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 public class CartMapper {
     private final CartServiceMapper cartService;
     private final RestaurantService restaurantService;
-    private final OrderService orderService;
     private final UserService userService;
 
     public CartDTO cartToCartDTO(Cart cart){

@@ -58,7 +58,7 @@ public class UserService {
     public boolean addRestaurantToUser(UserDetails userDetails, Restaurant restaurant){
         User user = (User) userDetails;
         if(restaurant != null && user.getRole() == Role.ROLE_MANAGER){
-            user.setRestaurant(restaurant);
+            user.setRestaurantId(restaurant.getId());
             userRepository.save(user);
             return true;
         }

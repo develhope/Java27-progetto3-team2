@@ -1,7 +1,8 @@
-package com.develhope.Java27_progetto3_team2.order;
+package com.develhope.Java27_progetto3_team2.order.entity;
 
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
+import com.develhope.Java27_progetto3_team2.order.enumerator.OrderStatus;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.user.User;
 import jakarta.persistence.*;
@@ -80,5 +81,20 @@ public class Order {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @Setter
+    private LocalDateTime deliveryTime;
 
+    public Order(OrderStatus status, String deliveryAddress, String paymentMethod, LocalDateTime orderDate, Double totalPrice, Long courierId, User user, Restaurant restaurant, List<MenuItem> items, Cart cart, LocalDateTime deliveryTime) {
+        this.status = status;
+        this.deliveryAddress = deliveryAddress;
+        this.paymentMethod = paymentMethod;
+        this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
+        this.courierId = courierId;
+        this.user = user;
+        this.restaurant = restaurant;
+        this.items = items;
+        this.cart = cart;
+        this.deliveryTime = deliveryTime;
+    }
 }

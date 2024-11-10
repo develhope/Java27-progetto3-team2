@@ -13,7 +13,7 @@ public class RestaurantMapper {
         restaurantDTO.setCategory(restaurant.getCategory());
         restaurantDTO.setAddress(restaurant.getAddress());
         restaurantDTO.setOpeningHours(restaurant.getOpeningHours());
-        restaurantDTO.setMenuRestaurant(restaurant.getRestaurantMenu());
+        restaurantDTO.setRestaurantMenuId(restaurant.getId());
         restaurantDTO.setReview(restaurant.getReview());
         return restaurantDTO;
 

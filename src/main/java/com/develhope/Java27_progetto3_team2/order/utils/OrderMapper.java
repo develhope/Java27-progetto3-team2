@@ -1,6 +1,9 @@
-package com.develhope.Java27_progetto3_team2.order;
+package com.develhope.Java27_progetto3_team2.order.utils;
 
 import com.develhope.Java27_progetto3_team2.menu.mapper.MenuItemMapper;
+import com.develhope.Java27_progetto3_team2.order.dto.OrderDTO;
+import com.develhope.Java27_progetto3_team2.order.dto.UserOrderDTO;
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -59,4 +62,17 @@ public class OrderMapper {
     public List<OrderDTO> fromOrderListToDTOList(List<Order> orderList){
         return orderList.stream().map(this::mapperOrderToOrderDTO).toList();
     }
+
+    public UserOrderDTO toUserOrderDTO (Order order){
+        UserOrderDTO userOrderDTO = new UserOrderDTO();
+        userOrderDTO.setDeliveryAddress(order.getDeliveryAddress());
+        userOrderDTO.setPaymentMethod(order.getPaymentMethod());
+        userOrderDTO.setOrderDate(order.getOrderDate());
+        userOrderDTO.setTotalPrice(order.getTotalPrice());
+        userOrderDTO.setDeliveryTime(order.getDeliveryTime());
+        return userOrderDTO;
+
+    }
+
+
 }
