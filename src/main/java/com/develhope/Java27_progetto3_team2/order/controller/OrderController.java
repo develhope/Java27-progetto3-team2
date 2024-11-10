@@ -1,14 +1,13 @@
 package com.develhope.Java27_progetto3_team2.order.controller;
 
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
-import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.cart.service.CartService;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.order.dto.OrderDTO;
 import com.develhope.Java27_progetto3_team2.order.dto.UserOrderDTO;
 import com.develhope.Java27_progetto3_team2.order.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,14 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping()
 @Slf4j
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    CartService cartService;
-    @Autowired
-    CartMapper cartMapper;
 
+    private final OrderService orderService;
+    private final CartService cartService;
 
     @PostMapping("/{userId}/{restaurantId}")
     public ResponseEntity<OrderDTO> addNewOrder(@PathVariable Long userId, @PathVariable Long restaurantId, @RequestBody OrderDTO orderDTO) {
