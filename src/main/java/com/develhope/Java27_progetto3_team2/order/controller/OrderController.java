@@ -1,10 +1,12 @@
-package com.develhope.Java27_progetto3_team2.order;
+package com.develhope.Java27_progetto3_team2.order.controller;
 
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
-import com.develhope.Java27_progetto3_team2.cart.cart.model.CartDTO;
 import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.cart.service.CartService;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
+import com.develhope.Java27_progetto3_team2.order.dto.OrderDTO;
+import com.develhope.Java27_progetto3_team2.order.dto.UserOrderDTO;
+import com.develhope.Java27_progetto3_team2.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,19 +68,14 @@ public class OrderController {
     }
 
     @PostMapping("/user/cart-to-order")
-    public ResponseEntity<OrderDTO> createOrderFromUserCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String address, @RequestParam String pay) {
-        // Recupero il cart dell'utente autenticato, tramite metodo getUserCart
-        CartDTO cartDTO = cartService.getUserCart(userDetails);
-        if (cartDTO == null) {
+    public ResponseEntity<UserOrderDTO> createOrderFromUserCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String address, @RequestParam String pay) {
+        Cart cart = cartService.getUserCart(userDetails);
+        if (cart == null) {
             throw new EntityNotFoundException("No open cart found for the user.");
         }
-
-        Cart cart = cartMapper.cartDTOToCart(cartDTO);
-        // Creo ordine da carrello
-        OrderDTO orderDTO = orderService.addNewOrderFromCart(cart, address, pay);
-
-        log.debug("Order created from user's cart: {}", orderDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderDTO);
+        UserOrderDTO userOrderDTO = orderService.addNewOrderFromCart(cart, address, pay);
+        log.debug("Order created from user's cart: {}", userOrderDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userOrderDTO);
     }
 
     @PatchMapping("/admin/order/status/{orderId}")

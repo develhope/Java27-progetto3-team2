@@ -2,8 +2,8 @@ package com.develhope.Java27_progetto3_team2.courier;
 
 import com.develhope.Java27_progetto3_team2.exception.exceptions.CourierAlreadyExistException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
-import com.develhope.Java27_progetto3_team2.order.Order;
-import com.develhope.Java27_progetto3_team2.order.OrderRepository;
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
+import com.develhope.Java27_progetto3_team2.order.repository.OrderRepository;
 import com.develhope.Java27_progetto3_team2.user.Role;
 import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserRepository;

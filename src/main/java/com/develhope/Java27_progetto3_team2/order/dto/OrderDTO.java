@@ -1,6 +1,7 @@
-package com.develhope.Java27_progetto3_team2.order;
+package com.develhope.Java27_progetto3_team2.order.dto;
 
 import com.develhope.Java27_progetto3_team2.menu.model.dto.MenuItemDTO;
+import com.develhope.Java27_progetto3_team2.order.enumerator.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class OrderDTO {
     private Long userId;
     private Long restaurantId;
     private Long cart;
-    private List<MenuItemDTO> items;  // Piatti del menù
+    private List<MenuItemDTO> items;
+    private LocalDateTime deliveryTime;
 
 }

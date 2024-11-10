@@ -1,6 +1,6 @@
 package com.develhope.Java27_progetto3_team2.courier;
 
-import com.develhope.Java27_progetto3_team2.order.Order;
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.*;
 

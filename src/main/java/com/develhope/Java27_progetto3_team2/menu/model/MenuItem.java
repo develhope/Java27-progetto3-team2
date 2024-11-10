@@ -1,8 +1,7 @@
 package com.develhope.Java27_progetto3_team2.menu.model;
 
 import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
-import com.develhope.Java27_progetto3_team2.order.Order;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,7 +42,6 @@ public class MenuItem {
     @Setter
     @ManyToOne
     @JoinColumn(name = "restaurant_menu", nullable = false)
-    @JsonBackReference
     private RestaurantMenu restaurantMenu;
 
     @ManyToMany(mappedBy = "items")

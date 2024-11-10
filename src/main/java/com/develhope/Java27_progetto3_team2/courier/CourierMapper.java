@@ -1,7 +1,7 @@
 package com.develhope.Java27_progetto3_team2.courier;
 
-import com.develhope.Java27_progetto3_team2.order.Order;
-import com.develhope.Java27_progetto3_team2.order.OrderService;
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
+import com.develhope.Java27_progetto3_team2.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

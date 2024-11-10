@@ -1,13 +1,19 @@
-package com.develhope.Java27_progetto3_team2.order;
+package com.develhope.Java27_progetto3_team2.order.service;
 
 
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
-import com.develhope.Java27_progetto3_team2.cart.cart.repository.CartRepository;
 import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
+import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
 import com.develhope.Java27_progetto3_team2.menu.repository.MenuItemRepository;
+import com.develhope.Java27_progetto3_team2.order.dto.OrderDTO;
+import com.develhope.Java27_progetto3_team2.order.dto.UserOrderDTO;
+import com.develhope.Java27_progetto3_team2.order.entity.Order;
+import com.develhope.Java27_progetto3_team2.order.enumerator.OrderStatus;
+import com.develhope.Java27_progetto3_team2.order.repository.OrderRepository;
+import com.develhope.Java27_progetto3_team2.order.utils.OrderMapper;
 import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.restaurant.repository.RestaurantRepository;
 import com.develhope.Java27_progetto3_team2.user.User;
@@ -29,7 +35,7 @@ public class OrderService {
     private final MenuItemRepository menuItemRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
-    private final CartRepository cartRepository;
+    private final CartMapper cartMapper;
 
     // Metodo per calcolare il prezzo totale degli items
     private double calculateTotalPrice(List<MenuItem> menuItems) {
@@ -43,6 +49,7 @@ public class OrderService {
         return totalPrice;
     }
 
+    @Deprecated
     public OrderDTO addNewOrder(Long userId, Long restaurantId, OrderDTO orderDTO) {
         if (userId <= 0 || restaurantId <= 0) {
             throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
@@ -79,24 +86,21 @@ public class OrderService {
 
 
     @Transactional
-    public OrderDTO addNewOrderFromCart(Cart cart, String address, String pay) {
+    public UserOrderDTO addNewOrderFromCart(Cart cart, String address, String pay) {
         if (cart.getUser().getId() <= 0 || cart.getRestaurant().getId() <= 0) {
             throw new InvalidRequestException("User ID and Restaurant ID must be positive.");
         }
 
-        // Creazione di un nuovo ordine
-        Order order = new Order(1L, OrderStatus.PENDING, address, pay, LocalDateTime.now(),
+        Order order = new Order( OrderStatus.PENDING, address, pay, LocalDateTime.now(),
                 calculateTotalPriceCartItem(cart.getCartItemList()), 1L,
-                cart.getUser(), cart.getRestaurant(),cart.getCartItemList().stream().map(CartItem::getMenuItem).toList(), cart);
+                cart.getUser(), cart.getRestaurant(),cart.getCartItemList().stream().map(CartItem::getMenuItem).toList(), cart,LocalDateTime.now().plusMinutes(45));
 
-        // Salvataggio dell'ordine
         Order savedOrder = orderRepository.save(order);
+        UserOrderDTO userOrderDTO = orderMapper.toUserOrderDTO(savedOrder);
+        userOrderDTO.setCartDTO(cartMapper.cartToCartDTO(cart));
+        userOrderDTO.setRestaurantName(cart.getRestaurant().getNameRestaurant());
 
-        // Eliminazione del carrello
-        //cartRepository.delete(cart);
-
-        // Ritorno dell'ordine come DTO
-        return orderMapper.mapperOrderToOrderDTO(savedOrder);
+        return orderMapper.toUserOrderDTO(savedOrder);
     }
 
     public OrderDTO updateOrder(OrderDTO orderDTO, Long idOrder) {
@@ -188,4 +192,6 @@ public class OrderService {
         orderRepository.save(order);
         return orderMapper.mapperOrderToOrderDTO(order);
     }
+
+
 }

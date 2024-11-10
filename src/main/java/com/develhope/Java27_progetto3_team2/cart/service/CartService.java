@@ -11,7 +11,7 @@ import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.menu.service.MenuItemService;
-import com.develhope.Java27_progetto3_team2.order.OrderService;
+import com.develhope.Java27_progetto3_team2.order.service.OrderService;
 import com.develhope.Java27_progetto3_team2.restaurant.service.RestaurantService;
 import com.develhope.Java27_progetto3_team2.user.User;
 import com.develhope.Java27_progetto3_team2.user.UserService;
@@ -48,8 +48,8 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cart);
         if (cartItem == null){
             cartItem = new CartItem();
-            cartItem.setCart(cart);
             cartItem.setMenuItem(menuItemService.getMenuItemById(idMenuItem));
+            cartItem.setCart(cart);
             cartItem.setQuantity(1);
         }else {
             int quantity = cartItem.getQuantity();
@@ -86,10 +86,9 @@ public class CartService {
         return cartMapper.cartToCartDTO(cart);
     }
 
-    public CartDTO getUserCart(UserDetails userDetails){
+    public Cart getUserCart(UserDetails userDetails){
         User user = (User) userDetails;
-        Cart cart = cartRepository.findByUser_Id(user.getId());
-        return cartMapper.cartToCartDTO(cart);
+        return cartRepository.findByUser_Id(user.getId());
     }
 
 
