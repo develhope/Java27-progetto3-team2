@@ -4,6 +4,7 @@ package com.develhope.Java27_progetto3_team2.order.service;
 import com.develhope.Java27_progetto3_team2.cart.cart.model.Cart;
 import com.develhope.Java27_progetto3_team2.cart.cartItem.model.CartItem;
 import com.develhope.Java27_progetto3_team2.cart.mapper.CartMapper;
+import com.develhope.Java27_progetto3_team2.email.EmailService;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
 import com.develhope.Java27_progetto3_team2.menu.model.MenuItem;
@@ -37,6 +38,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
     private final CartMapper cartMapper;
+    private final EmailService emailService;
 
     // Metodo per calcolare il prezzo totale degli items
     private double calculateTotalPrice(List<MenuItem> menuItems) {
@@ -101,6 +103,7 @@ public class OrderService {
 
         userOrderDTO.setCartDTO(cartMapper.cartToCartDTO(cart));
         userOrderDTO.setRestaurantName(cart.getRestaurant().getNameRestaurant());
+        emailService.sendOrderConfirmationEmail(order);
 
         return userOrderDTO;
     }
