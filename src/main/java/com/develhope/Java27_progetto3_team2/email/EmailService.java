@@ -42,7 +42,7 @@ public class EmailService {
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            helper.setFrom("your-email@gmail.com");
+            helper.setFrom("weeatnotificationservice@gmail.com");
             helper.setTo(order.getUser().getEmail());
             helper.setSubject(subject);
             helper.setText(body, true);
