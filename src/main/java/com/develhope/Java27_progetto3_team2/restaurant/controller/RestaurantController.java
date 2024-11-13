@@ -25,7 +25,7 @@ public class RestaurantController {
     @GetMapping("/public/restaurants")
     public ResponseEntity<Page<RestaurantDTO>> getAllRestaurant(@RequestParam int page, @RequestParam int quantity) {
         Page<RestaurantDTO> restaurantDTOList = restaurantService.getAllRestaurants(page,quantity);
-        return ResponseEntity.status(HttpStatus.FOUND).body(restaurantDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(restaurantDTOList);
     }
 
     @GetMapping("/admin/restaurat/{restaurantId}")
