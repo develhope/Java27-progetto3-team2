@@ -19,7 +19,7 @@ public class EmailService {
     public void sendOrderConfirmationEmail(Order order) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy 'alle' HH:mm:ss");
         String subject = "Conferma Ordine";
-        String linkPath = "https://drive.google.com/uc?export=view&id=1e8D9jy0WGHrl80lUHNUHDwcIwhlnqGHs";
+        String linkPath = "https://drive.google.com/uc?export=view&id=1XcYkIvTg8e9FSt5EiFR1TpPaL0XuX5PI";
         String body =
                 "<html>" +
                         "<body style='background-color: #ffffff;'>" +
