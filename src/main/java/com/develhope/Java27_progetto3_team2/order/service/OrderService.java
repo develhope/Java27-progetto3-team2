@@ -136,13 +136,7 @@ public class OrderService {
 
 
 
-
-
     public boolean deleteOrder(Long idOrder) {
-        if (!orderRepository.existsById(idOrder)) {
-            throw new EntityNotFoundException("Order with id " + idOrder + " not found");
-        }
-
         Order existingOrder = orderRepository.findById(idOrder)
                 .orElseThrow(() -> new EntityNotFoundException("Order with id " + idOrder + " not found"));
 
@@ -182,7 +176,7 @@ public class OrderService {
     }
 
     public Order getOrderById(Long orderId) {
-        return orderRepository.getReferenceById(orderId);
+        return orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order with id: " + orderId + " not found!"));
     }
 
     /***
@@ -192,6 +186,7 @@ public class OrderService {
      * @return returns the OrderDTO
      */
     public OrderDTO changeOrderStatus(Long orderId, String status){
+
         Order order = getOrderById(orderId);
         order.setStatus(OrderStatus.valueOf(status));
         orderRepository.save(order);
