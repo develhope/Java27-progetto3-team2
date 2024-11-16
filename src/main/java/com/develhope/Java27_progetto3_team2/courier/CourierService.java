@@ -35,34 +35,26 @@ public class CourierService {
         if(!courierRepository.existsById(idCourier)){
             throw new Exception("Courier not found");
         }
+        courierRepository.findById(idCourier).orElseThrow(() -> new EntityNotFoundException("Courier with id: " + idCourier +" not found!"));
         Courier updateCourier = courierMapper.toCourier(courierDTO);
         updateCourier.setId(idCourier);
         courierRepository.save(updateCourier);
-        courierDTO = courierMapper.toCourierDTO(updateCourier);
-        return courierDTO;
+        return courierMapper.toCourierDTO(updateCourier);
     }
 
     public boolean deleteOrder(Long idCourier) {
-        if (!courierRepository.existsById(idCourier)) {
-        return false; // Il courier non esiste, restituisci false
-    }
+        courierRepository.findById(idCourier).orElseThrow(() -> new EntityNotFoundException("Courier with id: " + idCourier + " not found!"));
         courierRepository.deleteById(idCourier); // Elimina il courier
         return true; // Restituisci true per indicare che il courier è stato eliminato con successo
     }
 
     public CourierDTO getCourierById(Long idCourier) throws Exception {
-    Courier courierFound = courierRepository.getReferenceById(idCourier);
-    if(courierFound==null){
-        throw new Exception("Courier not found by id: "+idCourier);
-    }
-    return courierMapper.toCourierDTO(courierFound);
+        Courier courier = courierRepository.findById(idCourier).orElseThrow(() -> new EntityNotFoundException("Courier with id: " + idCourier + " not found!"));
+        return courierMapper.toCourierDTO(courier);
     }
 
     public CourierDTO getCourierByEmail(String emailCourier) throws Exception {
-        Courier courierFound = courierRepository.findByEmail(emailCourier);
-        if(courierFound==null){
-            throw new Exception("Courier not found by email: "+emailCourier);
-        }
+        Courier courierFound = courierRepository.findByEmail(emailCourier).orElseThrow(() -> new EntityNotFoundException("Courier with email: " + emailCourier + " not found!"));
         return courierMapper.toCourierDTO(courierFound);
     }
 
@@ -99,7 +91,7 @@ public class CourierService {
         if(userDetails.getUsername() == null || userDetails.getUsername().isEmpty()){
             throw new EntityNotFoundException("Courier not found");
         }
-        Courier courier = courierRepository.findByEmail(userDetails.getUsername());
+        Courier courier = courierRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new EntityNotFoundException("No courier found with email: " + userDetails.getUsername() ));
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order with id: " + orderId + " not found"));
         courier.setOrderList(List.of(order));
         courierRepository.save(courier);

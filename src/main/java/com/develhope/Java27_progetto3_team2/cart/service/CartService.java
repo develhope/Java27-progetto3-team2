@@ -44,7 +44,7 @@ public class CartService {
 
     public CartDTO addItemToCart(UserDetails userDetails, Long idMenuItem) {
         User user = (User) userDetails;
-        Cart cart = cartRepository.findByUser_Id(user.getId());
+        Cart cart = cartRepository.findByUser_Id(user.getId()).orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + user.getId()));
         CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cart);
         if (cartItem == null){
             cartItem = new CartItem();
@@ -64,13 +64,12 @@ public class CartService {
     }
 
     public CartDTO deleteItemOnCart(Long idCart, Long idMenuItem) throws Exception {
-        Cart cart = cartRepository.getReferenceById(idCart);
+        Cart cart = cartRepository.findById(idCart).orElseThrow(() -> new EntityNotFoundException("No cart found with id: " + idCart));
         CartItem cartItem = cartItemRepository.findByMenuItemAndCart(menuItemService.getMenuItemById(idMenuItem),cartRepository.getReferenceById(idCart));
         if (cartItem == null){
             throw new EntityNotFoundException("This item doesn't exists!");
         }else {
-            int quantity = cartItem.getQuantity();
-            cartItem.setQuantity(++quantity);
+            cartItem.setQuantity(0);
         }
         cartItemRepository.save(cartItem);
         return cartMapper.cartToCartDTO(cart);
@@ -88,7 +87,7 @@ public class CartService {
 
     public Cart getUserCart(UserDetails userDetails){
         User user = (User) userDetails;
-        return cartRepository.findByUser_Id(user.getId());
+        return cartRepository.findByUser_Id(user.getId()).orElseThrow(() -> new EntityNotFoundException("Cart not found for user with id: " + user.getId()) );
     }
 
 
