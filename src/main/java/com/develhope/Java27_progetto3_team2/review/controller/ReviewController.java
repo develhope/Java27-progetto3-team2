@@ -3,6 +3,7 @@ package com.develhope.Java27_progetto3_team2.review.controller;
 import com.develhope.Java27_progetto3_team2.review.model.Review;
 import com.develhope.Java27_progetto3_team2.review.model.dto.CreateReviewDTO;
 import com.develhope.Java27_progetto3_team2.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -52,7 +53,7 @@ public class ReviewController {
     }
 
     @PostMapping("/add") //Nuova recensione
-    public ResponseEntity<Review> addReview(@RequestBody CreateReviewDTO createReviewDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Review> addReview(@Valid @RequestBody CreateReviewDTO createReviewDTO, @AuthenticationPrincipal UserDetails userDetails) {
         log.info("POST /reviews - Request to add review for restaurant ID: {}", createReviewDTO.getRestaurantId());
         Review review = reviewService.addReview(createReviewDTO, userDetails);
         log.info("POST /reviews - Review added with ID: {}", review.getId());
@@ -60,7 +61,7 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}") //Aggiorna una recensione esistente
-    public ResponseEntity<Review> updateReview(@PathVariable Long id, @RequestBody CreateReviewDTO createReviewDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Review> updateReview(@PathVariable Long id, @Valid @RequestBody CreateReviewDTO createReviewDTO, @AuthenticationPrincipal UserDetails userDetails) {
         log.info("PUT /reviews/{} - Request to update review", id);
         Review updatedReview = reviewService.updateReview(id, createReviewDTO, userDetails);
         log.info("PUT /reviews/{} - Review updated successfully", id);
