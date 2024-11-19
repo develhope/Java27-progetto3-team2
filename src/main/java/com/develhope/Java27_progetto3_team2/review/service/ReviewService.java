@@ -13,6 +13,7 @@ import com.develhope.Java27_progetto3_team2.user.UserRepository;
 import com.develhope.Java27_progetto3_team2.order.repository.OrderRepository;
 import com.develhope.Java27_progetto3_team2.review.utils.ReviewMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -29,23 +31,59 @@ public class ReviewService {
     private final ReviewMapper reviewMapper;
 
     public Review addReview(CreateReviewDTO createReviewDTO, UserDetails userDetails) {
-        // Ricavare l'utente autenticato usando il repository utenti
         User user = userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
+                .orElseThrow(() -> {
+                    log.error("User with email {} not found", userDetails.getUsername());
+                    return new EntityNotFoundException("Utente non trovato");
+                });
 
-        // Verifica l'esistenza del ristorante
         Restaurant restaurant = restaurantRepository.findById(createReviewDTO.getRestaurantId())
-                .orElseThrow(() -> new EntityNotFoundException("Ristorante non trovato"));
+                .orElseThrow(() -> {
+                    log.error("Restaurant with ID {} not found", createReviewDTO.getRestaurantId());
+                    return new EntityNotFoundException("Ristorante non trovato");
+                });
 
-        // Verifica se l'utente ha ordinato da questo ristorante
-        List<Order> orders = orderRepository.findByUserIdAndRestaurantId(user.getId(), createReviewDTO.getRestaurantId());
-        if (orders.isEmpty()) {
-            throw new InvalidRequestException("L'utente non ha effettuato ordini presso questo ristorante");
-        }
-
-        // Utilizzo il ReviewMapper per creare l'entità Review
         Review review = reviewMapper.fromDTO(createReviewDTO, restaurant, user);
+        Review savedReview = reviewRepository.save(review);
+        log.info("Review saved with ID: {}", savedReview.getId());
+        return savedReview;
+    }
 
-        return reviewRepository.save(review);
+    public Review getReviewById(Long id) {
+        return reviewRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Review with ID {} not found", id);
+                    return new EntityNotFoundException("Recensione non trovata");
+                });
+    }
+
+    public Review updateReview(Long id, CreateReviewDTO createReviewDTO, UserDetails userDetails) {
+        Review existingReview = getReviewById(id);
+        if (!existingReview.getUser().getEmail().equals(userDetails.getUsername())) {
+            log.warn("User {} attempted to update a review not owned by them", userDetails.getUsername());
+            throw new InvalidRequestException("Non puoi modificare recensioni di altri utenti");
+        }
+        existingReview.setRating(createReviewDTO.getRating());
+        existingReview.setComment(createReviewDTO.getComment());
+        Review updatedReview = reviewRepository.save(existingReview);
+        log.info("Review with ID {} updated successfully", id);
+        return updatedReview;
+
+    }
+
+    public void deleteReview(Long id) {
+        Review review = getReviewById(id);
+        reviewRepository.delete(review);
+        log.info("Review with ID {} deleted successfully", id);
+    }
+
+    public List<Review> getReviewsByRestaurant(Long restaurantId) {
+        log.info("Fetching reviews for restaurant ID: {}", restaurantId);
+        return reviewRepository.findByRestaurantId(restaurantId);
+    }
+
+    public List<Review> getReviewsByUser(Long userId) {
+        log.info("Fetching reviews for user ID: {}", userId);
+        return reviewRepository.findByUserId(userId);
     }
 }
