@@ -1,6 +1,8 @@
 package com.develhope.Java27_progetto3_team2.review.repository;
 
+import com.develhope.Java27_progetto3_team2.restaurant.model.Restaurant;
 import com.develhope.Java27_progetto3_team2.review.model.Review;
+import com.develhope.Java27_progetto3_team2.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -13,4 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByRestaurantId(Long restaurantId, Pageable pageable);
     Page<Review> findByUserId(Long userId, Pageable pageable);
+
+    boolean existsByUserAndRestaurant(User user, Restaurant restaurant);
 }

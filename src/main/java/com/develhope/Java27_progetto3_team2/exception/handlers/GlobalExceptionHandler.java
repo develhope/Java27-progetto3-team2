@@ -29,4 +29,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleCourierAlreadyExistException(CourierAlreadyExistException ex, WebRequest request){
         return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ReviewAlreadyExistsException.class)
+    public ResponseEntity<String> handleReviewAlreadyExistsException(ReviewAlreadyExistsException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }

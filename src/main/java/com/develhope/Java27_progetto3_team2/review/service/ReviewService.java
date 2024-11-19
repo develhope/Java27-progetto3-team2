@@ -2,6 +2,7 @@ package com.develhope.Java27_progetto3_team2.review.service;
 
 import com.develhope.Java27_progetto3_team2.exception.exceptions.EntityNotFoundException;
 import com.develhope.Java27_progetto3_team2.exception.exceptions.InvalidRequestException;
+import com.develhope.Java27_progetto3_team2.exception.exceptions.ReviewAlreadyExistsException;
 import com.develhope.Java27_progetto3_team2.order.entity.Order;
 import com.develhope.Java27_progetto3_team2.review.model.Review;
 import com.develhope.Java27_progetto3_team2.review.model.dto.CreateReviewDTO;
@@ -44,6 +45,12 @@ public class ReviewService {
                     return new EntityNotFoundException("Ristorante non trovato");
                 });
 
+        boolean exists = reviewRepository.existsByUserAndRestaurant(user, restaurant);
+        if (exists) {
+            log.warn("User {} attempted to add a duplicate review for restaurant ID {}", userDetails.getUsername(), createReviewDTO.getRestaurantId());
+            throw new ReviewAlreadyExistsException("Hai già recensito questo ristorante.");
+        }
+
         Review review = reviewMapper.fromDTO(createReviewDTO, restaurant, user);
         Review savedReview = reviewRepository.save(review);
         log.info("Review saved with ID: {}", savedReview.getId());
@@ -79,11 +86,19 @@ public class ReviewService {
     }
 
     public Page<Review> getReviewsByRestaurant(Long restaurantId, Pageable pageable) {
+        if (!restaurantRepository.existsById(restaurantId)) {
+            log.error("Restaurant with ID {} not found", restaurantId);
+            throw new EntityNotFoundException("Ristorante non trovato");
+        }
         log.info("Fetching paginated reviews for restaurant ID: {}", restaurantId);
         return reviewRepository.findByRestaurantId(restaurantId, pageable);
     }
 
     public Page<Review> getReviewsByUser(Long userId, Pageable pageable) {
+        if (!userRepository.existsById(userId)) {
+            log.error("User with ID {} not found", userId);
+            throw new EntityNotFoundException("Utente non trovato");
+        }
         log.info("Fetching paginated reviews for user ID: {}", userId);
         return reviewRepository.findByUserId(userId, pageable);
     }
