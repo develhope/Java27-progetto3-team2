@@ -14,10 +14,11 @@ import com.develhope.Java27_progetto3_team2.order.repository.OrderRepository;
 import com.develhope.Java27_progetto3_team2.review.utils.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -77,13 +78,13 @@ public class ReviewService {
         log.info("Review with ID {} deleted successfully", id);
     }
 
-    public List<Review> getReviewsByRestaurant(Long restaurantId) {
-        log.info("Fetching reviews for restaurant ID: {}", restaurantId);
-        return reviewRepository.findByRestaurantId(restaurantId);
+    public Page<Review> getReviewsByRestaurant(Long restaurantId, Pageable pageable) {
+        log.info("Fetching paginated reviews for restaurant ID: {}", restaurantId);
+        return reviewRepository.findByRestaurantId(restaurantId, pageable);
     }
 
-    public List<Review> getReviewsByUser(Long userId) {
-        log.info("Fetching reviews for user ID: {}", userId);
-        return reviewRepository.findByUserId(userId);
+    public Page<Review> getReviewsByUser(Long userId, Pageable pageable) {
+        log.info("Fetching paginated reviews for user ID: {}", userId);
+        return reviewRepository.findByUserId(userId, pageable);
     }
 }
